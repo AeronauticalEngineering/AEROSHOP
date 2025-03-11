@@ -293,7 +293,7 @@
 
     async function initializeApp() {
       showLoading(true);
-     //await initializeLiff(); // เรียกใช้งาน LIFF และดึงข้อมูลผู้ใช้
+      await initializeLiff(); // เรียกใช้งาน LIFF และดึงข้อมูลผู้ใช้
       try {
         const [productsData, shippingData, bannersData] = await Promise.all([
           fetchProducts(),

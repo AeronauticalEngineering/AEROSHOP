@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Aera shop</title>
+  <title>Aero Shop</title>
   <!-- ฟอนต์ภาษาไทย -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
   <!-- สไตล์สำหรับ Swiper.js -->
@@ -24,9 +24,13 @@
       --secondary-color: #0A164D;
       --accent-color: #EB8012;
     }
+    .swal2-styled.swal2-confirm{
+        background-color: #0A164D !important;
+    }
     .flying-image {
             position: absolute;
-            width: 120px;
+            padding-top: -20px;
+            width: 100px;
             animation: fly 5s linear infinite, tilt 1s ease-in-out infinite alternate;
         }
         @keyframes fly {
@@ -47,9 +51,9 @@
   <!-- Loading Screen -->
   <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-[#F5F8FD] z-50">
     <div class="text-center">
-      <div class="relative flex w-64 gap-2 p-4">
+      <div class="relative flex w-48">
         <div class="flex-1">
-            <img src="https://lh5.googleusercontent.com/d/1MoIcHrUlOtTV46t5CI3bYwT0cGQBh7PB" alt="Flying Object" class="flying-image w-60 mx-auto">
+            <img src="https://lh5.googleusercontent.com/d/1MoIcHrUlOtTV46t5CI3bYwT0cGQBh7PB" alt="Flying Object" class="flying-image w-48 mx-auto">
         </div>
       </div>
     </div>
@@ -65,7 +69,7 @@
           <div class="flex justify-between items-center p-4">
             <div class="flex items-center">
               <div class="w-12 h-12 rounded-xl">
-                <img src="" alt="Profile Image" id="profileImage" class="w-12 h-12 rounded-xl bg-[var(--primary-color)]" onerror="this.style.display='none';">
+                <img src="https://placehold.co/600x400/FFFFFF/FFF" alt="Profile Image" id="profileImage" class="w-12 h-12 rounded-xl bg-[var(--primary-color)]" onerror="this.style.display='none';">
                          </div>
               <div class="pl-4">
                 <p class="text-[var(--secondary-color)] text-xs">ยินดีต้อนรับ</p>
@@ -89,7 +93,7 @@
               <button id="go-to-cart"
                 class="bg-[var(--accent-color)] text-md py-2 px-4 flex items-center gap-2 rounded-xl ml-4 focus:outline-none">
                 <!-- ไอคอนตะกร้าสินค้า -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
                   stroke="currentColor" stroke-width="1.5">
                   <path
                     d="M11.5 8H20.196C20.8208 8 21.1332 8 21.3619 8.10084C22.3736 8.5469 21.9213 9.67075 21.7511 10.4784C21.7205 10.6235 21.621 10.747 21.4816 10.8132C20.9033 11.0876 20.4982 11.6081 20.3919 12.2134L19.7993 15.5878C19.5386 17.0725 19.4495 19.1943 18.1484 20.2402C17.1938 21 15.8184 21 13.0675 21H10.9325C8.18162 21 6.8062 21 5.8516 20.2402C4.55052 19.1942 4.46138 17.0725 4.20066 15.5878L3.60807 12.2134C3.50177 11.6081 3.09673 11.0876 2.51841 10.8132C2.37896 10.747 2.27952 10.6235 2.24894 10.4784C2.07874 9.67075 1.6264 8.5469 2.63812 8.10084C2.86684 8 3.17922 8 3.80397 8H7.5" />
@@ -526,7 +530,7 @@
         categoryImage.src = getCategoryImage(category, products);
         categoryImage.alt = category;
         categoryImage.loading = 'lazy';
-        categoryImage.classList.add('w-12', 'h-12', 'rounded-lg');
+        categoryImage.classList.add('w-8', 'h-8', 'rounded-lg');
         const categoryLabel = document.createElement('span');
         categoryLabel.textContent = category === 'All' ? 'รวมทั้งหมด' : category;
         categoryLabel.classList.add('text-sm');
@@ -543,12 +547,12 @@
     // ฟังก์ชันดึงรูปหมวดหมู่สินค้า
     function getCategoryImage(category, products) {
       if (category === 'All') {
-        return 'https://placehold.co/600x400?text=All';
+        return 'https://lh5.googleusercontent.com/d/1EcQBRvMKn5oAhRM6yODkn0gWcMTWGGS6';
       }
       const product = products.find(function (p) {
         return p.category === category;
       });
-      return product ? product['Img-product'] : 'https://placehold.co/600x400?text=All';
+      return product ? product['Img-product'] : 'https://lh5.googleusercontent.com/d/1EcQBRvMKn5oAhRM6yODkn0gWcMTWGGS6';
     }
 
     // ฟังก์ชันเปลี่ยนหมวดหมู่สินค้า

@@ -134,12 +134,12 @@
         .swal2-title {
             font-size: 1rem !important;
         }
+
         select {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            }
-
+        }
     </style>
 </head>
 
@@ -813,7 +813,7 @@
             sizeSelect.appendChild(defaultOption);
 
             // เติม option จากไซส์ที่มีอยู่
-            ['FS', 'S', 'M', 'L', 'XL', 'XXL'].forEach(function (size) {
+            ['FS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'].forEach(function (size) {
                 if (product[size] > 0) {
                     const option = document.createElement('option');
                     option.value = size;
@@ -844,7 +844,7 @@
 
             // สร้าง container สำหรับช่องกรอกไซส์เพิ่มเติม (ซ่อนไว้ก่อน) ที่จะอยู่ด้านล่าง row
             const customInputContainer = document.createElement('div');
-            customInputContainer.classList.add('mt-2','p-2','border','rounded-xl'); // เว้นระยะห่างด้านบน
+            customInputContainer.classList.add('mt-2', 'p-2', 'border', 'rounded-xl'); // เว้นระยะห่างด้านบน
             const customSizeInput = document.createElement('input');
             customSizeInput.type = 'text';
             customSizeInput.placeholder = 'ระบุไซส์อื่นๆ';

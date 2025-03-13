@@ -58,15 +58,18 @@
         <input type="hidden" id="edit-order-id">
         <div class="mb-4">
           <label for="edit-express" class="block text-sm">บริการจัดส่ง</label>
+          <!-- เพิ่มตัวเลือก "รับสินค้าเอง" -->
           <select id="edit-express" class="w-full border px-2 py-1 rounded-md">
             <option value="kerry">Kerry</option>
             <option value="flash">Flash</option>
             <option value="thaipost">ThaiPost</option>
+            <option value="รับสินค้าเอง">รับสินค้าเอง</option>
           </select>
         </div>
         <div class="mb-4">
-          <label for="edit-tax" class="block text-sm">เลขพัสดุ</label>
-          <input type="text" id="edit-tax" class="w-full border px-2 py-1 rounded-md">
+          <label for="edit-tax" class="block text-sm">เลขพัสดุ / TAX</label>
+          <!-- เพิ่ม placeholder เพื่อบอกว่า "ใส่ลิ้งค์หรือรหัสติดตาม" -->
+          <input type="text" id="edit-tax" class="w-full border px-2 py-1 rounded-md" placeholder="ใส่ลิ้งค์หรือรหัสติดตาม">
         </div>
         <div class="mb-4">
           <label for="edit-send" class="block text-sm">เวลาจัดส่ง</label>
@@ -272,9 +275,7 @@
         const isPaid = (order.paymentStatus === 'ชำระเงินสำเร็จ');
         btnHtml += `
             <button
-              class="bg-gray-800 text-white py-1 px-3 rounded-md hover:bg-gray-600 ${
-                isPaid ? 'opacity-50 cursor-not-allowed' : ''
-              }"
+              class="bg-gray-800 text-white py-1 px-3 rounded-md hover:bg-gray-600 ${isPaid ? 'opacity-50 cursor-not-allowed' : ''}"
               ${isPaid ? 'disabled' : ''}
               onclick="if(!${isPaid}) { openPaymentOptions('${order.orderId}'); }"
             >
@@ -323,9 +324,7 @@
 
       for (let i = startPage; i <= endPage; i++) {
         const pageButton = document.createElement('button');
-        pageButton.className = `mx-1 px-3 py-1 rounded-md ${
-          i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-300'
-        }`;
+        pageButton.className = `mx-1 px-3 py-1 rounded-md ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-300'}`;
         pageButton.innerText = i;
         pageButton.onclick = () => {
           currentPage = i;

@@ -844,11 +844,11 @@
 
             // สร้าง container สำหรับช่องกรอกไซส์เพิ่มเติม (ซ่อนไว้ก่อน) ที่จะอยู่ด้านล่าง row
             const customInputContainer = document.createElement('div');
-            customInputContainer.classList.add('mt-2', 'w-64','p-2','border', 'rounded-xl'); // เว้นระยะห่างด้านบน
+            customInputContainer.classList.add('mt-2','p-2','border', 'rounded-xl'); // เว้นระยะห่างด้านบน
             const customSizeInput = document.createElement('input');
             customSizeInput.type = 'text';
             customSizeInput.placeholder = 'ระบุไซส์อื่นๆ';
-            customSizeInput.classList.add('custom-size-input');
+            customSizeInput.classList.add('w-full');
             customSizeInput.setAttribute('data-id', product.id);
             customInputContainer.appendChild(customSizeInput);
             customInputContainer.style.display = 'none';

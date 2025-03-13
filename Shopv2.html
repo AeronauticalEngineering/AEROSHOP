@@ -74,6 +74,50 @@
             transform: scale(1.1);
         }
 
+
+        .swiper-button-prev-custom,
+        .swiper-button-next-custom {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(147, 147, 147, 0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            padding-bottom: 5px;
+            border-radius: 25%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .swiper-button-prev-custom {
+            left: 10px;
+        }
+
+        .swiper-button-next-custom {
+            right: 10px;
+        }
+
+        .custom-swal-popup {
+            padding: 0 !important;
+        }
+
+        .swal2-popup {
+            overflow: hidden !important;
+        }
+
+        button.swal2-confirm.swal2-styled {
+            display: none !important;
+        }
+
+        .swal2-title {
+            font-size: 1rem !important;
+        }
         
            select {
              -webkit-appearance: none;

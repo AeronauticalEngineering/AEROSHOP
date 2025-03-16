@@ -2,146 +2,271 @@
 <html lang="th">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Aero Shop</title>
-  <!-- ฟอนต์ภาษาไทย -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
-  <!-- สไตล์สำหรับ Swiper.js -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <!-- Swiper.js -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Aero Shop</title>
+    <!-- ฟอนต์ภาษาไทย -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
+    <!-- สไตล์สำหรับ Swiper.js -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- Swiper.js -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
-  <!-- กำหนดธีมสีใน :root (3 ค่าสี) -->
-  <style>
-    :root {
-      --primary-color: #ffffff;
-      --secondary-color: #0A164D;
-      --accent-color: #EB8012;
-    }
+    <!-- กำหนดธีมสีใน :root (3 ค่าสี) -->
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --secondary-color: #0A164D;
+            --accent-color: #EB8012;
+        }
 
-    .swal2-styled.swal2-confirm {
-      background-color: #0A164D !important;
-    }
+        .swal2-styled.swal2-confirm {
+            background-color: #0A164D !important;
+        }
 
-    .flying-image {
-      position: absolute;
-      padding-top: -20px;
-      width: 100px;
-      animation: fly 5s linear infinite, tilt 1s ease-in-out infinite alternate;
-    }
+        .flying-image {
+            position: absolute;
+            padding-top: -20px;
+            width: 100px;
+            animation: fly 5s linear infinite, tilt 1s ease-in-out infinite alternate;
+        }
 
-    @keyframes fly {
-      0% {
-        transform: translate(0, 0);
-      }
+        @keyframes fly {
+            0% {
+                transform: translate(0, 0);
+            }
 
-      25% {
-        transform: translate(100px, -50px);
-      }
+            25% {
+                transform: translate(100px, -50px);
+            }
 
-      50% {
-        transform: translate(200px, 50px);
-      }
+            50% {
+                transform: translate(200px, 50px);
+            }
 
-      75% {
-        transform: translate(100px, 100px);
-      }
+            75% {
+                transform: translate(100px, 100px);
+            }
 
-      100% {
-        transform: translate(0, 0);
-      }
-    }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
 
-    @keyframes tilt {
-      0% {
-        transform: rotate(5deg);
-      }
+        @keyframes tilt {
+            0% {
+                transform: rotate(5deg);
+            }
 
-      100% {
-        transform: rotate(-5deg);
-      }
-    }
+            100% {
+                transform: rotate(-5deg);
+            }
+        }
 
-    .go-to-cart {
-      animation: go-to-cart 0.5s ease-in-out;
-      background-color: #D8FA00;
-      transform: scale(1.1);
-    }
+        .go-to-cart {
+            animation: go-to-cart 0.5s ease-in-out;
+            background-color: #D8FA00;
+            transform: scale(1.1);
+        }
 
-    .swiper-button-prev-custom,
-    .swiper-button-next-custom {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(147, 147, 147, 0.5);
-      color: white;
-      border: none;
-      width: 30px;
-      height: 30px;
-      font-size: 20px;
-      padding-bottom: 5px;
-      border-radius: 25%;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
 
-    .swiper-button-prev-custom {
-      left: 10px;
-    }
+        .swiper-button-prev-custom,
+        .swiper-button-next-custom {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(147, 147, 147, 0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            padding-bottom: 5px;
+            border-radius: 25%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
 
-    .swiper-button-next-custom {
-      right: 10px;
-    }
+        .swiper-button-prev-custom {
+            left: 10px;
+        }
 
-    .custom-swal-popup {
-      padding: 0 !important;
-    }
+        .swiper-button-next-custom {
+            right: 10px;
+        }
 
-    .swal2-popup {
-      overflow: hidden !important;
-    }
+        .custom-swal-popup {
+            padding: 0 !important;
+        }
 
-    button.swal2-confirm.swal2-styled {
-      display: none !important;
-    }
+        .swal2-popup {
+            overflow: hidden !important;
+        }
 
-    .swal2-title {
-      font-size: 1rem !important;
-    }
+        button.swal2-confirm.swal2-styled {
+            display: none !important;
+        }
 
-    select {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-    }
-  </style>
+        .swal2-title {
+            font-size: 1rem !important;
+        }
+        
+           select {
+             -webkit-appearance: none;
+             -moz-appearance: none;
+             appearance: none;
+             }
+       
+    </style>
 </head>
 
 <body class="bg-slate-200 font-sans">
-  <!-- Loading Screen -->
-  <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-[#F5F8FD] z-50">
-    <div class="text-center">
-      <div class="relative flex w-48">
-        <div class="flex-1">
-          <img src="https://lh5.googleusercontent.com/d/1MoIcHrUlOtTV46t5CI3bYwT0cGQBh7PB" alt="Flying Object" class="flying-image w-48 mx-auto">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-[#F5F8FD] z-50">
+        <div class="text-center">
+            <div class="relative flex w-48">
+                <div class="flex-1">
+                    <img src="https://lh5.googleusercontent.com/d/1MoIcHrUlOtTV46t5CI3bYwT0cGQBh7PB" alt="Flying Object"
+                        class="flying-image w-48 mx-auto">
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- main-shop (ซ่อนไว้ก่อน แสดงเมื่อโหลดเสร็จ) -->
-  <div class="main-shop hidden">
-    <!-- ส่วนของร้านค้าและตะกร้าสินค้า (product-selection, cart-view, banner-slider, ฯลฯ) -->
-    <!-- ... โค้ดส่วน product-selection, cart-view, banner-slider, รายการสินค้า ฯลฯ ... -->
+    <!-- main-shop (ซ่อนไว้ก่อน แสดงเมื่อโหลดเสร็จ) -->
+    <div class="main-shop hidden">
+        <!-- ฟังก์ชันการแสดงรายการสินค้า -->
+        <div id="product-selection" class="max-w-md mx-auto pt-20">
+            <div class="p-4 rounded-xl">
+                <!-- ส่วนหัวของร้านค้า -->
+                <div class="fixed top-0 left-0 w-full bg-[var(--primary-color)] border-b border-white z-50">
+                    <div class="flex justify-between items-center p-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-xl">
+                                <img src="https://placehold.co/600x400/FFFFFF/FFF" alt="Profile Image" id="profileImage"
+                                    class="w-12 h-12 rounded-xl bg-[var(--primary-color)]"
+                                    onerror="this.style.display='none';">
+                            </div>
+                            <div class="pl-4">
+                                <p class="text-[var(--secondary-color)] text-xs">ยินดีต้อนรับ</p>
+                                <input type="text"
+                                    class="bg-[var(--primary-color)] w-32 text-[var(--secondary-color)] text-lg font-bold bg-opacity-0 focus:outline-none"
+                                    id="displayName" name="displayName" readonly>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <!-- <p id="userPoints"
+              class="bg-gray-200 mx-1 rounded-xl w-full max-w-[96px] p-2 text-[var(--secondary-color)] text-md font-bold flex items-center gap-2">
+             
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                stroke="currentColor" stroke-width="1.5">
+                <path
+                  d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" />
+                <path
+                  d="M12.8638 7.72209L13.7437 9.49644C13.8637 9.74344 14.1837 9.98035 14.4536 10.0257L16.0485 10.2929C17.0684 10.4643 17.3083 11.2103 16.5734 11.9462L15.3335 13.1964C15.1236 13.4081 15.0086 13.8164 15.0736 14.1087L15.4285 15.6562C15.7085 16.8812 15.0636 17.355 13.9887 16.7148L12.4939 15.8226C12.2239 15.6613 11.7789 15.6613 11.504 15.8226L10.0091 16.7148C8.93925 17.355 8.28932 16.8761 8.56929 15.6562L8.92425 14.1087C8.98925 13.8164 8.87426 13.4081 8.66428 13.1964L7.42442 11.9462C6.6945 11.2103 6.92947 10.4643 7.94936 10.2929L9.54419 10.0257C9.80916 9.98035 10.1291 9.74344 10.2491 9.49644L11.129 7.72209C11.609 6.7593 12.3889 6.7593 12.8638 7.72209Z" />
+              </svg>
+              0
+            </p> -->
+                            <button id="go-to-cart"
+                                class="bg-[var(--accent-color)] text-md py-2 px-4 flex items-center gap-2 rounded-xl ml-4 focus:outline-none">
+                                <!-- ไอคอนตะกร้าสินค้า -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path
+                                        d="M11.5 8H20.196C20.8208 8 21.1332 8 21.3619 8.10084C22.3736 8.5469 21.9213 9.67075 21.7511 10.4784C21.7205 10.6235 21.621 10.747 21.4816 10.8132C20.9033 11.0876 20.4982 11.6081 20.3919 12.2134L19.7993 15.5878C19.5386 17.0725 19.4495 19.1943 18.1484 20.2402C17.1938 21 15.8184 21 13.0675 21H10.9325C8.18162 21 6.8062 21 5.8516 20.2402C4.55052 19.1942 4.46138 17.0725 4.20066 15.5878L3.60807 12.2134C3.50177 11.6081 3.09673 11.0876 2.51841 10.8132C2.37896 10.747 2.27952 10.6235 2.24894 10.4784C2.07874 9.67075 1.6264 8.5469 2.63812 8.10084C2.86684 8 3.17922 8 3.80397 8H7.5" />
+                                    <path d="M14 12L10 12" />
+                                    <path d="M6.5 11L10 3M15 3L17.5 8" />
+                                </svg>
+                                0
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide Banner -->
+                <div id="banner-slider"
+                    class="swiper-container w-full max-h-[300px] relative overflow-hidden rounded-xl">
+                    <div class="swiper-wrapper">
+                        <!-- สไลด์จะแทรกที่นี่ผ่าน JavaScript -->
+                    </div>
+                </div>
+
+                <div>
+                    <!-- ส่วนแสดงหมวดหมู่สินค้า -->
+                    <div class="flex">
+                        <div id="tab-nav" class="flex overflow-x-auto space-x-4 pb-2">
+                            <!-- หมวดหมู่สินค้า -->
+                        </div>
+                    </div>
+                    <!-- ช่องค้นหาสินค้า -->
+                    <div class="relative">
+                        <input type="text" id="search-input" placeholder="ค้นหาสินค้า"
+                            class="w-full px-4 py-2 bg-[var(--primary-color)] border rounded-xl focus:outline-none">
+                    </div>
+                    <!-- รายการสินค้า -->
+                    <div id="product-list" class="grid grid-cols-2 gap-4 py-4"></div>
+                    <!-- ปุ่มโหลดเพิ่มเติม -->
+                    <div id="load-more-container" class="text-center w-full m-4 hidden">
+                        <button id="load-more"
+                            class="bg-[var(--primary-color)] text-[var(--secondary-color)] px-4 py-2 rounded-xl">เพิ่มเติม</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ฟังก์ชันการแสดงตะกร้าสินค้า -->
+        <div id="cart-view" class="max-w-md mx-auto pt-20 hidden">
+            <div class="bg-[var(--primary-color)] rounded-xl p-4 m-2">
+                <!-- ส่วนหัวของตะกร้าสินค้า -->
+                <div class="fixed top-0 left-0 w-full bg-[var(--primary-color)] border-b z-50">
+                    <div class="flex justify-between items-center p-4">
+                        <h2 class="text-[var(--secondary-color)] text-md font-semibold">ตะกร้าสินค้า</h2>
+                        <div id="back-to-products"
+                            class="bg-gray-200 opacity-90 text-center font-bold py-2 w-36 border rounded-xl cursor-pointer">
+                            กลับ ร้านค้า</div>
+                    </div>
+                </div>
+
+                <div id="cart-items" class="bg-[var(--primary-color)] rounded-xl"></div>
+
+                <div class="pt-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <label for="shipping-options" class="text-sm">การจัดส่ง<br /></label>
+                        <select id="shipping-options"
+                            class="bg-[var(--primary-color)] border border-gray-400 rounded-xl p-2 focus:outline-none">
+                            <!-- ตัวเลือกการจัดส่งจะถูกเติมโดย JavaScript -->
+                        </select>
+                    </div>
+
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-md font-semibold">ค่าจัดส่ง</span>
+                        <span id="shipping-cost" class="text-md text-gray-400">0.00 บาท</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-md font-semibold">ราคารวมสินค้า</span>
+                        <span id="total-price" class="text-md text-gray-400">0.00 บาท</span>
+                    </div>
+
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-md font-semibold">ราคารวมทั้งหมด</span>
+                        <span id="grand-total" class="text-lg text-[var(--secondary-color)] font-semibold">0.00
+                            บาท</span>
+                    </div>
+                </div>
+
+                <button id="go-to-shipping"
+                    class="w-full bg-[var(--secondary-color)] text-[var(--primary-color)] p-4 rounded-xl font-semibold hidden focus:outline-none">ถัดไป</button>
+            </div>
+        </div>
+
 
     <!-- ฟังก์ชันแสดงข้อมูลจัดส่ง -->
     <div id="shipping-info" class="max-w-md mx-auto pt-20 hidden">
@@ -177,12 +302,9 @@
               <label for="note" class="block text-[var(--secondary-color)]">หมายเหตุ:</label>
               <textarea id="note" placeholder="โปรดระบุในกรณีสั่งซื้อสินค้าขนาดพิเศษหรือสินค้าที่มีการระบุชื่อ" class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" style="height: 100px;"></textarea>
             </div>
-
             <div class="mb-4 flex items-center">
               <input type="checkbox" id="save-info" class="mr-2">
-              <label for="save-info" class="text-[var(--secondary-color)]">
-                บันทึกชื่อและที่อยู่สำหรับการใช้งานครั้งถัดไป
-              </label>
+              <label for="save-info" class="text-[var(--secondary-color)]">บันทึกชื่อและที่อยู่สำหรับการใช้งานครั้งถัดไป</label>
             </div>
             <input type="hidden" id="userlineid" name="userlineid">
           </div>
@@ -222,12 +344,11 @@
 
   <!-- สคริปต์หลัก -->
   <script defer>
-    // ฟังก์ชันตั้งค่า
+    // ตัวแปรและฟังก์ชันเริ่มต้น
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzi3Mca-TzwiOGqtnwFn9t_UTl3yzY_wGEQT4PdvFrVI-sgz72SFrFHLOH0V0TEo3-m8Q/exec";
     const WEB_MEMBER_APP_URL = "https://script.google.com/macros/s/AKfycbza8DgaVCUAhemxKpWjXNhk9meZAsSlMTzM1ZJVR2l4whSSxh8QYtmd4QfeRCNIJfPq7Q/exec";
-    const LIFF_ID = '2006974351-0GWowwVZ'; // เปลี่ยนเป็น LIFF ID ของคุณ
+    const LIFF_ID = '2006974351-0GWowwVZ';
 
-    // ตัวแปรหลัก
     let shippingOptions = [];
     let selectedShipping = null;
     let cart = [];
@@ -239,7 +360,7 @@
     let filteredProducts = [];
     let productsCache = [];
 
-    // การเข้าถึง DOM
+    // DOM elements
     const productList = document.getElementById('product-list');
     const tabNav = document.getElementById('tab-nav');
     const goToCartBtn = document.getElementById('go-to-cart');
@@ -264,7 +385,7 @@
 
     async function initializeApp() {
       showLoading(true);
-      await initializeLiff();
+    await initializeLiff();
       try {
         const [productsData, shippingData, bannersData] = await Promise.all([
           fetchProducts(),
@@ -328,20 +449,28 @@
       }
     }
 
-    // แสดงข้อมูลผู้ใช้รวมทั้งเลขรหัสประชาชน (ถ้ามี)
     function displayData(row) {
       console.log('Displaying data:', row);
       document.getElementById('username').value = row.Name || '';
       document.getElementById('address').value = row.Address || '';
       document.getElementById('contact').value = row.Contact || '';
       document.getElementById('citizenid').value = row.CitizenId || '';
-      // สมมติว่ามี element userPoints สำหรับแสดงคะแนน
-      if (document.getElementById('userPoints')) {
-        document.getElementById('userPoints').innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z"/>
-            <path d="M12.8638 7.72209L13.7437 9.49644C13.8637 9.74344 14.1837 9.98035 14.4536 10.0257L16.0485 10.2929C17.0684 10.4643 17.3083 11.2103 16.5734 11.9462L15.3335 13.1964C15.1236 13.4081 15.0086 13.8164 15.0736 14.1087L15.4285 15.6562C15.7085 16.8812 15.0636 17.355 13.9887 16.7148L12.4939 15.8226C12.2239 15.6613 11.7789 15.6613 11.504 15.8226L10.0091 16.7148C8.93925 17.355 8.28932 16.8761 8.56929 15.6562L8.92425 14.1087C8.98925 13.8164 8.87426 13.4081 8.66428 13.1964L7.42442 11.9462C6.6945 11.2103 6.92947 10.4643 7.94936 10.2929L9.54419 10.0257C9.80916 9.98035 10.1291 9.74344 10.2491 9.49644L11.129 7.72209C11.609 6.7593 12.3889 6.7593 12.8638 7.72209Z"/>
-          </svg> ${row.Points || 0}`;
+      document.getElementById('userPoints').innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z"/>
+          <path d="M12.8638 7.72209L13.7437 9.49644C13.8637 9.74344 14.1837 9.98035 14.4536 10.0257L16.0485 10.2929C17.0684 10.4643 17.3083 11.2103 16.5734 11.9462L15.3335 13.1964C15.1236 13.4081 15.0086 13.8164 15.0736 14.1087L15.4285 15.6562C15.7085 16.8812 15.0636 17.355 13.9887 16.7148L12.4939 15.8226C12.2239 15.6613 11.7789 15.6613 11.504 15.8226L10.0091 16.7148C8.93925 17.355 8.28932 16.8761 8.56929 15.6562L8.92425 14.1087C8.98925 13.8164 8.87426 13.4081 8.66428 13.1964L7.42442 11.9462C6.6945 11.2103 6.92947 10.4643 7.94936 10.2929L9.54419 10.0257C9.80916 9.98035 10.1291 9.74344 10.2491 9.49644L11.129 7.72209C11.609 6.7593 12.3889 6.7593 12.8638 7.72209Z"/>
+        </svg> ${row.Points || 0}`;
+    }
+
+    function showLoading(isLoading) {
+      const loadingScreen = document.getElementById('loading-screen');
+      const mainShop = document.querySelector('.main-shop');
+      if (isLoading) {
+        loadingScreen.style.display = 'flex';
+        mainShop.style.display = 'none';
+      } else {
+        loadingScreen.style.display = 'none';
+        mainShop.style.display = 'block';
       }
     }
 

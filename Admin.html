@@ -100,6 +100,7 @@
       try {
         const response = await fetch(WEB_APP_URL);
         const data = await response.json();
+        // processOrders() จะปรับให้ดึง citizenid จาก index 4
         tableData = processOrders(data.slice(1));
         filteredData = tableData;
         applyFilters();
@@ -111,21 +112,25 @@
       }
     }
 
-    // แปลงข้อมูลเป็นออบเจ็กต์
+    // แปลงข้อมูลเป็นออบเจ็กต์ โดยปรับตำแหน่งของ citizenid
     function processOrders(data) {
       const processedData = [];
       const orderMap = {};
 
       data.forEach(row => {
+        // โครงสร้างที่ปรับใหม่:
+        // [0]=orderId, [1]=name, [2]=address, [3]=contact, [4]=citizenid, [5]=note, [6]=userlineid,
+        // [7]=productId, [8]=productName, [9]=price, [10]=size, [11]=quantity, [12]=itemTotal, [13]=timestamp,
+        // [14]=paymentStatus, [15]=express, [16]=tax, [17]=send
         const orderId = row[0];
-        const totalOrder = parseFloat(row[10]);
-        const totalPrice = parseFloat(row[11]);
-        const rawTimestamp = row[12];
+        const totalOrder = parseFloat(row[12]) || 0;
+        const totalPrice = parseFloat(row[12]) || 0;
+        const rawTimestamp = row[13];
         const timestamp = new Date(rawTimestamp);
-        const paymentStatus = row[13];
-        const express = row[14];
-        const tax = row[15];
-        const send = row[16] ? formatDate(row[16]) : '';
+        const paymentStatus = row[14] || '';
+        const express = row[15] || '';
+        const tax = row[16] || '';
+        const send = row[17] ? formatDate(row[17]) : '';
 
         if (!orderMap[orderId]) {
           orderMap[orderId] = {
@@ -133,7 +138,9 @@
             name: row[1],
             address: row[2],
             contact: row[3],
-            note: row[4],
+            citizenid: row[4], // เพิ่ม citizenid
+            note: row[5],
+            userlineid: row[6],
             totalOrder: totalOrder,
             totalPrice: totalPrice,
             timestamp: timestamp,
@@ -149,12 +156,12 @@
         }
 
         orderMap[orderId].products.push({
-          idProduct: row[6],
-          product: row[7],
-          price: row[8],
-          size: row[9],
-          value: row[10],
-          totalOrder: totalOrder
+          idProduct: row[7],
+          product: row[8],
+          price: parseFloat(row[9]),
+          size: row[10],
+          quantity: parseInt(row[11]),
+          value: parseFloat(row[12])
         });
       });
 
@@ -318,7 +325,7 @@
       return `${day}/${month}/${year} ${hours}:${minutes}`;
     }
 
-    // คืนค่า current datetime ในรูปแบบสำหรับ datetime-local (yyyy-MM-ddTHH:mm)
+    // คืนค่า current datetime สำหรับ datetime-local
     function getCurrentDateTimeLocal() {
       const now = new Date();
       const year = now.getFullYear();
@@ -335,7 +342,7 @@
       return `${year}-${month}-${day}T${hours}:${minutes}`;
     }
 
-    // ดูรายละเอียดการสั่งซื้อ (SweetAlert)
+    // ดูรายละเอียดการสั่งซื้อ (SweetAlert) พร้อมแสดง citizenid
     function showDetails(orderId) {
       const order = tableData.find(o => o.orderId === orderId);
       if (!order) {
@@ -349,6 +356,7 @@
           <p><strong>ชื่อผู้สั่ง:</strong> ${order.name}</p>
           <p><strong>ที่อยู่:</strong> ${order.address}</p>
           <p><strong>เบอร์ติดต่อ:</strong> ${order.contact}</p>
+          <p><strong>เลขรหัสประชาชน:</strong> ${order.citizenid || '-'}</p>
           <p><strong>หมายเหตุ:</strong> ${order.note}</p>
         </div>
         <div style="margin-bottom: 10px; font-size:14px; text-align: start;">
@@ -365,7 +373,7 @@
               </div>
               <div style="flex: 1; padding-left: 10px;">
                 <p><strong>ไซต์:</strong> ${prod.size}</p>
-                <p><strong>จำนวน:</strong> ${prod.totalOrder} ชิ้น</p>
+                <p><strong>จำนวน:</strong> ${prod.quantity} ชิ้น</p>
               </div>
             </div>
           </div>
@@ -386,7 +394,7 @@
       });
     }
 
-    // Modal: ส่งของ
+    // Modal สำหรับแก้ไข Express, TAX และ SEND
     function openEditModal(orderId) {
       const order = tableData.find(o => o.orderId === orderId);
       if (!order) {
@@ -396,7 +404,6 @@
       document.getElementById('edit-order-id').value = order.orderId;
       document.getElementById('edit-express').value = order.express;
       document.getElementById('edit-tax').value = order.tax;
-      // ถ้าไม่มี send ให้ตั้งค่าเป็นเวลาปัจจุบัน
       document.getElementById('edit-send').value = order.send ? convertToDateTimeLocal(order.send) : getCurrentDateTimeLocal();
       document.getElementById('edit-modal').classList.remove('hidden');
     }

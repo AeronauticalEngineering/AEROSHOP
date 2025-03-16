@@ -205,7 +205,7 @@
         function processOrders(data) {
             const orderMap = {};
             data.forEach(row => {
-                const [orderId, name,address, contact, note, userId, idProduct, product, price, size, value, total, rawTimestamp, paymentStatus] = row;
+                const [orderId, name,address, contact,citizenid, note, userId, idProduct, product, price, size, value, total, rawTimestamp, paymentStatus] = row;
                 const timestamp = new Date(rawTimestamp);
 
                 if (!orderMap[orderId]) {
@@ -215,6 +215,7 @@
                         name,
                         address,
                         contact,
+                        citizenid,
                         note,
                         total: +total,
                         timestamp,
@@ -329,7 +330,8 @@
                     <strong>ข้อมูลการสั่งซื้อ</strong>
                     <p><strong>Order ID:</strong> ${order.orderId}</p>
                     <p><strong>ชื่อผู้สั่ง:</strong> ${order.name}</p>
-                    <p><strong>เลขที่บัตรประชาชน:</strong> ${order.contact}</p>
+                    <p><strong>เบอร์ติดต่อ:</strong> ${order.contact}</p>
+                    <p><strong>เลขที่บัตรประชาชน:</strong> ${order.citizenid}</p>
                     <p><strong>ที่อยู่:</strong> ${order.address}</p>
                     <p><strong>หมายเหตุ:</strong> ${order.note}</p>
                 </div>

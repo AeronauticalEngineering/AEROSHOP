@@ -1020,17 +1020,23 @@
       updateTotalPrice();
     }
 
-    function increment(index) {
-      const item = cart[index];
-      const product = productsCache.find(function (p) {
-        return p.id === item.id;
-      });
-      if (product[item.size] > item.quantity) {
-        cart[index].quantity += 1;
-        renderCart();
-        updateCartCount();
-      }
+function increment(index) {
+  const item = cart[index];
+  if (item.size === 'Other') {
+    // ถ้าเลือก "ระบุเอง" ให้เพิ่มได้สูงสุด 10 ชิ้น
+    if (item.quantity < 10) {
+      cart[index].quantity += 1;
     }
+  } else {
+    const product = productsCache.find(p => p.id === item.id);
+    if (product[item.size] > item.quantity) {
+      cart[index].quantity += 1;
+    }
+  }
+  renderCart();
+  updateCartCount();
+}
+
 
     function decrement(index) {
       if (cart[index].quantity > 1) {

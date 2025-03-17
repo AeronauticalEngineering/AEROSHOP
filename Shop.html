@@ -967,24 +967,26 @@
     }
 
     // ฟังก์ชันเพิ่มจำนวนสินค้าในตะกร้า (แก้ไขเพื่อรองรับ "Other")
-    function increment(index) {
-      const item = cart[index];
-      if (item.size === 'Other') {
-        // สำหรับ "Other" ให้เพิ่มได้สูงสุด 10 ชิ้น
-        if (item.quantity < 10) {
-          cart[index].quantity += 1;
-        }
-      } else {
-        const product = productsCache.find(function (p) {
-          return p.id === item.id;
-        });
-        if (product[item.size] > item.quantity) {
-          cart[index].quantity += 1;
-        }
-      }
-      renderCart();
-      updateCartCount();
+  function increment(index) {
+  const item = cart[index];
+  // กำหนดรายการไซส์มาตรฐานที่มีในระบบ
+  const standardSizes = ['FS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+  // ถ้าไซส์ที่เลือกไม่ใช่ไซส์มาตรฐาน (คือ custom size)
+  if (!standardSizes.includes(item.size)) {
+    // เพิ่มจำนวนได้สูงสุด 10 ชิ้นสำหรับไซส์ custom
+    if (item.quantity < 10) {
+      cart[index].quantity += 1;
     }
+  } else {
+    const product = productsCache.find(p => p.id === item.id);
+    if (product[item.size] > item.quantity) {
+      cart[index].quantity += 1;
+    }
+  }
+  renderCart();
+  updateCartCount();
+}
+
 
     function decrement(index) {
       if (cart[index].quantity > 1) {

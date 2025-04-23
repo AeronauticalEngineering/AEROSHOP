@@ -715,10 +715,10 @@ function createProductElement(product) {
     const morePicBtn = document.createElement('button');
     morePicBtn.classList.add(
       'absolute','top-2','right-2','z-10',
-      'p-2','bg-white','rounded-xl','focus:outline-none','shadow'
+      'p-2','bg-white','rounded-xl','focus:outline-none','border','border-[#0A164D]'
     );
-    morePicBtn.textContent = 'Size'; // Text button instead of image
-    morePicBtn.classList.add('font-semibold', 'text-sm', 'px-4', 'py-2');
+    morePicBtn.textContent = 'ขนาด'; // Text button instead of image
+    morePicBtn.classList.add('font-semibold', 'text-sm', 'px-4', 'py-1');
     morePicBtn.addEventListener('click', () => {
       Swal.fire({
         title: product.name,

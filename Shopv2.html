@@ -732,20 +732,7 @@
         customClass: { popup: 'custom-swal-popup' }
       });
 
-      // Full screen button functionality
-      const fullScreenBtn = document.getElementById('fullScreenBtn');
-      if (fullScreenBtn) {
-        fullScreenBtn.addEventListener('click', () => {
-          const imageElement = Swal.getPopup().querySelector('img');
-          if (imageElement) {
-            const fullScreenWindow = window.open();
-            fullScreenWindow.document.body.innerHTML = `<img src="${imageElement.src}" style="width: 100%; height: 100vh; object-fit: contain;">`;
-          }
-        });
-      }
-    });
-    imgContainer.appendChild(morePicBtn);
-  }
+
 
   let finalPrice = product.Price;
   if (product.Discount && product.Discount > 0 && product.Discount < product.Price) {

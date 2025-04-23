@@ -691,7 +691,7 @@
       }
     }
 
-   function createProductElement(product) {
+function createProductElement(product) {
   const productDiv = document.createElement('div');
   productDiv.classList.add(
     'bg-[var(--primary-color)]','flex','flex-col',
@@ -717,21 +717,20 @@
       'absolute','top-2','right-2','z-10',
       'p-2','bg-white','rounded-xl','focus:outline-none','shadow'
     );
-    morePicBtn.textContent = 'Size'; // Text button instead of image
+    morePicBtn.textContent = 'Show Image'; // Text button instead of image
     morePicBtn.classList.add('font-semibold', 'text-sm', 'px-4', 'py-2');
     morePicBtn.addEventListener('click', () => {
       Swal.fire({
         title: product.name,
-        html: `
-          <img src="${product['more-pic3']}" alt="${product.name}" style="width: 100%; height: auto;">
-        `,
+        html: `<img src="${product['more-pic3']}" alt="${product.name}" style="width: 100%; height: auto;">`,
         showCloseButton: true,
         showConfirmButton: false,
         width: '90%',
         customClass: { popup: 'custom-swal-popup' }
       });
-
-
+    });
+    imgContainer.appendChild(morePicBtn);
+  }
 
   let finalPrice = product.Price;
   if (product.Discount && product.Discount > 0 && product.Discount < product.Price) {
@@ -825,7 +824,6 @@
 
   return productDiv;
 }
-
 
     async function shareProduct(product) {
       const result = await Swal.fire({

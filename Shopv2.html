@@ -691,142 +691,155 @@
       }
     }
 
-    function createProductElement(product) {
-    const productDiv = document.createElement('div');
-    productDiv.classList.add(
-      'bg-[var(--primary-color)]','flex','flex-col',
-      'border','rounded-xl','relative'
-    );
+   function createProductElement(product) {
+  const productDiv = document.createElement('div');
+  productDiv.classList.add(
+    'bg-[var(--primary-color)]','flex','flex-col',
+    'border','rounded-xl','relative'
+  );
 
-    const imgContainer = document.createElement('div');
-    imgContainer.classList.add('relative');
-    const productImg = document.createElement('img');
-    productImg.src = product['Img-product'];
-    productImg.alt = product.name;
-    productImg.loading = 'lazy';
-    productImg.classList.add(
-      'w-full','h-40','object-cover','rounded-t-lg','product-img'
-    );
-    productImg.setAttribute('data-id', product.id);
-    imgContainer.appendChild(productImg);
+  const imgContainer = document.createElement('div');
+  imgContainer.classList.add('relative');
+  const productImg = document.createElement('img');
+  productImg.src = product['Img-product'];
+  productImg.alt = product.name;
+  productImg.loading = 'lazy';
+  productImg.classList.add(
+    'w-full','h-40','object-cover','rounded-t-lg','product-img'
+  );
+  productImg.setAttribute('data-id', product.id);
+  imgContainer.appendChild(productImg);
 
-    // ปุ่ม more-pic3 แสดง popup รูปเพิ่มเติม
-    if (product['more-pic3']) {
-      const morePicBtn = document.createElement('button');
-      morePicBtn.classList.add(
-        'absolute','top-2','right-2','z-10',
-        'p-1','bg-white','rounded-full','focus:outline-none','shadow'
-      );
-      const icon = document.createElement('img');
-      icon.src = product['more-pic3'];
-      icon.alt = 'รูปเพิ่มเติม';
-      icon.classList.add('w-6','h-6','object-cover','rounded-full');
-      morePicBtn.appendChild(icon);
-      morePicBtn.addEventListener('click', () => {
-        Swal.fire({
-          imageUrl: product['more-pic3'],
-          imageAlt: product.name,
-          showCloseButton: true,
-          showConfirmButton: false,
-          width: '88%',
-          customClass: { popup: 'custom-swal-popup' }
-        });
+  // ปุ่ม more-pic3 แสดง popup รูปเพิ่มเติม
+  if (product['more-pic3']) {
+    const morePicBtn = document.createElement('button');
+    morePicBtn.classList.add(
+      'absolute','top-2','right-2','z-10',
+      'p-2','bg-white','rounded-xl','focus:outline-none','shadow'
+    );
+    morePicBtn.textContent = 'Size'; // Text button instead of image
+    morePicBtn.classList.add('font-semibold', 'text-sm', 'px-4', 'py-2');
+    morePicBtn.addEventListener('click', () => {
+      Swal.fire({
+        title: product.name,
+        html: `
+          <img src="${product['more-pic3']}" alt="${product.name}" style="width: 100%; height: auto;">
+          <button id="fullScreenBtn" class="mt-4 p-2 bg-blue-500 text-white rounded-lg">View Full Screen</button>
+        `,
+        showCloseButton: true,
+        showConfirmButton: false,
+        width: '90%',
+        customClass: { popup: 'custom-swal-popup' }
       });
-      imgContainer.appendChild(morePicBtn);
-    }
 
-    let finalPrice = product.Price;
-    if (product.Discount && product.Discount > 0 && product.Discount < product.Price) {
-      finalPrice = product.Discount;
-    }
-    const priceBadge = document.createElement('div');
-    priceBadge.classList.add(
-      'absolute','top-2','left-2',
-      'bg-[var(--secondary-color)]','text-white',
-      'px-2','py-1','rounded-xl',
-      'text-sm','font-semibold','z-10'
-    );
-    priceBadge.textContent = `${finalPrice} บาท`;
-    imgContainer.appendChild(priceBadge);
-
-    productDiv.appendChild(imgContainer);
-
-    const productInfoContainer = document.createElement('div');
-    productInfoContainer.classList.add(
-      'flex-grow','text-left','p-2','text-sm','mt-2'
-    );
-    const productName = document.createElement('h3');
-    productName.classList.add(
-      'py-2','font-semibold','text-[var(--secondary-color)]'
-    );
-    productName.textContent = product.name;
-    productInfoContainer.appendChild(productName);
-
-    const actionContainer = document.createElement('div');
-    actionContainer.classList.add('flex','flex-col');
-
-    const rowContainer = document.createElement('div');
-    rowContainer.classList.add('flex','items-center','justify-between');
-
-    const sizeSelect = document.createElement('select');
-    sizeSelect.classList.add(
-      'bg-gray-200','text-[var(--secondary-color)]',
-      'rounded-xl','p-2','product-size'
-    );
-    sizeSelect.setAttribute('data-id', product.id);
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    defaultOption.textContent = 'เลือกไซต์';
-    sizeSelect.appendChild(defaultOption);
-
-    ['FS','XS','S','M','L','XL','2XL','3XL'].forEach(size => {
-      if (product[size] > 0) {
-        const opt = document.createElement('option');
-        opt.value = size;
-        opt.textContent = `${size} (${product[size]})`;
-        sizeSelect.appendChild(opt);
+      // Full screen button functionality
+      const fullScreenBtn = document.getElementById('fullScreenBtn');
+      if (fullScreenBtn) {
+        fullScreenBtn.addEventListener('click', () => {
+          const imageElement = Swal.getPopup().querySelector('img');
+          if (imageElement) {
+            const fullScreenWindow = window.open();
+            fullScreenWindow.document.body.innerHTML = `<img src="${imageElement.src}" style="width: 100%; height: 100vh; object-fit: contain;">`;
+          }
+        });
       }
     });
-    const otherOption = document.createElement('option');
-    otherOption.value = 'Other';
-    otherOption.textContent = 'ระบุเอง';
-    sizeSelect.appendChild(otherOption);
-    rowContainer.appendChild(sizeSelect);
-
-    const addToCartBtn = document.createElement('button');
-    addToCartBtn.classList.add(
-      'bg-[var(--accent-color)]','p-2','rounded-xl','font-bold',
-      'focus:outline-none','focus:ring-2','add-to-cart'
-    );
-    addToCartBtn.style.width = '35%';
-    addToCartBtn.textContent = 'ซื้อ';
-    addToCartBtn.setAttribute('data-id', product.id);
-    rowContainer.appendChild(addToCartBtn);
-
-    actionContainer.appendChild(rowContainer);
-
-    const customInputContainer = document.createElement('div');
-    customInputContainer.classList.add('mt-2','p-1','border','rounded-xl');
-    const customSizeInput = document.createElement('input');
-    customSizeInput.type = 'text';
-    customSizeInput.placeholder = 'ระบุไซส์อื่นๆ';
-    customSizeInput.classList.add('custom-size-input','w-full');
-    customSizeInput.setAttribute('data-id', product.id);
-    customInputContainer.appendChild(customSizeInput);
-    customInputContainer.style.display = 'none';
-    actionContainer.appendChild(customInputContainer);
-
-    sizeSelect.addEventListener('change', function() {
-      customInputContainer.style.display = this.value === 'Other' ? 'block' : 'none';
-    });
-
-    productInfoContainer.appendChild(actionContainer);
-    productDiv.appendChild(productInfoContainer);
-
-    return productDiv;
+    imgContainer.appendChild(morePicBtn);
   }
+
+  let finalPrice = product.Price;
+  if (product.Discount && product.Discount > 0 && product.Discount < product.Price) {
+    finalPrice = product.Discount;
+  }
+  const priceBadge = document.createElement('div');
+  priceBadge.classList.add(
+    'absolute','top-2','left-2',
+    'bg-[var(--secondary-color)]','text-white',
+    'px-2','py-1','rounded-xl',
+    'text-sm','font-semibold','z-10'
+  );
+  priceBadge.textContent = `${finalPrice} บาท`;
+  imgContainer.appendChild(priceBadge);
+
+  productDiv.appendChild(imgContainer);
+
+  const productInfoContainer = document.createElement('div');
+  productInfoContainer.classList.add(
+    'flex-grow','text-left','p-2','text-sm','mt-2'
+  );
+  const productName = document.createElement('h3');
+  productName.classList.add(
+    'py-2','font-semibold','text-[var(--secondary-color)]'
+  );
+  productName.textContent = product.name;
+  productInfoContainer.appendChild(productName);
+
+  const actionContainer = document.createElement('div');
+  actionContainer.classList.add('flex','flex-col');
+
+  const rowContainer = document.createElement('div');
+  rowContainer.classList.add('flex','items-center','justify-between');
+
+  const sizeSelect = document.createElement('select');
+  sizeSelect.classList.add(
+    'bg-gray-200','text-[var(--secondary-color)]',
+    'rounded-xl','p-2','product-size'
+  );
+  sizeSelect.setAttribute('data-id', product.id);
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '';
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.textContent = 'เลือกไซต์';
+  sizeSelect.appendChild(defaultOption);
+
+  ['FS','XS','S','M','L','XL','2XL','3XL'].forEach(size => {
+    if (product[size] > 0) {
+      const opt = document.createElement('option');
+      opt.value = size;
+      opt.textContent = `${size} (${product[size]})`;
+      sizeSelect.appendChild(opt);
+    }
+  });
+  const otherOption = document.createElement('option');
+  otherOption.value = 'Other';
+  otherOption.textContent = 'ระบุเอง';
+  sizeSelect.appendChild(otherOption);
+  rowContainer.appendChild(sizeSelect);
+
+  const addToCartBtn = document.createElement('button');
+  addToCartBtn.classList.add(
+    'bg-[var(--accent-color)]','p-2','rounded-xl','font-bold',
+    'focus:outline-none','focus:ring-2','add-to-cart'
+  );
+  addToCartBtn.style.width = '35%';
+  addToCartBtn.textContent = 'ซื้อ';
+  addToCartBtn.setAttribute('data-id', product.id);
+  rowContainer.appendChild(addToCartBtn);
+
+  actionContainer.appendChild(rowContainer);
+
+  const customInputContainer = document.createElement('div');
+  customInputContainer.classList.add('mt-2','p-1','border','rounded-xl');
+  const customSizeInput = document.createElement('input');
+  customSizeInput.type = 'text';
+  customSizeInput.placeholder = 'ระบุไซส์อื่นๆ';
+  customSizeInput.classList.add('custom-size-input','w-full');
+  customSizeInput.setAttribute('data-id', product.id);
+  customInputContainer.appendChild(customSizeInput);
+  customInputContainer.style.display = 'none';
+  actionContainer.appendChild(customInputContainer);
+
+  sizeSelect.addEventListener('change', function() {
+    customInputContainer.style.display = this.value === 'Other' ? 'block' : 'none';
+  });
+
+  productInfoContainer.appendChild(actionContainer);
+  productDiv.appendChild(productInfoContainer);
+
+  return productDiv;
+}
+
 
     async function shareProduct(product) {
       const result = await Swal.fire({

@@ -1,16 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>แสดงข้อมูลการสั่งซื้อ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .status-success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-warning {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-danger {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status-info {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status-neutral {
+      background-color: #f3f4f6;
+      color: #374151;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    /* Loading Spinner */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 
 <body class="bg-slate-100 min-h-screen p-6">
-  <div class="max-w-md m-auto">
+  <div class="max-w-7xl mx-auto">
     <div class="mb-4">
       <!-- Sort Field -->
       <div class="flex justify-between">
@@ -22,62 +109,89 @@
       </div>
     </div>
 
-    <!-- ตาราง -->
-    <div id="data-table-container" class="overflow-x-auto">
-      <table id="data-table" class="min-w-full border-collapse text-sm">
-        <thead class="bg-blue-900 text-white text-sm">
-          <tr>
-            <th class="px-4 py-2 text-left">วันที่</th>
-            <th class="px-4 py-2 text-left">ชื่อ ลูกค้า</th>
-            <th class="px-4 py-2 text-left">ราคา</th>
-            <th class="px-4 py-2 text-left">สถานะ</th>
-            <th class="px-4 py-2 text-left">คำสั่ง</th>
-          </tr>
-        </thead>
-        <tbody id="data-tbody" class="bg-white">
-          <!-- แถวข้อมูลจะแทรกที่นี่โดย JS -->
-        </tbody>
-      </table>
+    <!-- Order Grid (Responsive Cards) -->
+    <div id="order-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <!-- Cards will be inserted here by JS -->
     </div>
 
     <!-- Pagination -->
     <div id="pagination" class="flex justify-center mt-4"></div>
+  </div>
 
-    <!-- แสดงข้อความ "กำลังโหลดรายการ..." -->
-    <div id="loading-message" class="text-center text-gray-100 mb-4" style="display: none;">
-      กำลังโหลดรายการ...
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="text-center">
+      <div class="spinner mx-auto mb-4"></div>
+      <p class="text-white text-lg font-medium">กำลังโหลดข้อมูล...</p>
     </div>
   </div>
 
   <!-- Modal สำหรับแก้ไข Express, TAX และ SEND -->
-  <div id="edit-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white p-4 rounded-md w-full max-w-md">
-      <h2 class="text-xl mb-4">แก้ไข การจัดส่ง, เลขพัสดุ, เวลาจัดส่ง</h2>
-      <form id="edit-form">
+  <div id="edit-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+      <div <div
+        class="bg-[var(--secondary-color)] px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-slate-800 text-white">
+        <h2 class="text-lg font-bold" id="modal-title">จัดการออเดอร์</h2>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <form id="edit-form" class="p-6">
         <input type="hidden" id="edit-order-id">
-        <div class="mb-4">
-          <label for="edit-express" class="block text-sm">บริการจัดส่ง</label>
-          <select id="edit-express" class="w-full border px-2 py-1 rounded-md">
-            <option value="kerry">Kerry</option>
-            <option value="flash">Flash</option>
-            <option value="thaipost">ThaiPost</option>
-            <option value="รับสินค้าเอง">รับสินค้าเอง</option>
-            <option value="Pre-Order">Pre-Order</option>
-          </select>
+
+        <!-- Status Group -->
+        <div id="modal-group-status">
+          <div id="product-status-list" class="space-y-4 max-h-60 overflow-y-auto pr-2">
+            <!-- Dynamic Product List will be inserted here -->
+          </div>
         </div>
-        <div class="mb-4">
-          <label for="edit-tax" class="block text-sm">เลขพัสดุ / TAX</label>
-          <input type="text" id="edit-tax" class="w-full border px-2 py-1 rounded-md" placeholder="ใส่ลิ้งค์หรือรหัสติดตาม">
+
+        <!-- Shipping Group -->
+        <div id="modal-group-shipping" class="hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="edit-express" class="block text-sm font-medium text-gray-700 mb-1">บริการจัดส่ง
+                (Courier)</label>
+              <select id="edit-express"
+                class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 border p-2">
+                <option value="kerry">Kerry</option>
+                <option value="flash">Flash</option>
+                <option value="thaipost">ThaiPost</option>
+                <option value="รับสินค้าเอง">รับสินค้าเอง</option>
+                <option value="Pre-Order">Pre-Order</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="edit-send" class="block text-sm font-medium text-gray-700 mb-1">เวลาจัดส่ง (Date/Time)</label>
+              <input type="datetime-local" id="edit-send"
+                class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 border p-2">
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label for="edit-tax" class="block text-sm font-medium text-gray-700 mb-1">เลขพัสดุ / TAX (Tracking
+              No.)</label>
+            <input type="text" id="edit-tax"
+              class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 border p-2"
+              placeholder="ใส่ลิ้งค์หรือรหัสติดตาม">
+          </div>
         </div>
-        <div class="mb-4">
-          <label for="edit-send" class="block text-sm">เวลาจัดส่ง</label>
-          <input type="datetime-local" id="edit-send" class="w-full border px-2 py-1 rounded-md">
-        </div>
-        <div class="flex justify-end">
-          <button type="button" class="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-700 mr-2"
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+          <button type="button"
+            class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors"
             onclick="closeModal()">ยกเลิก</button>
-          <button type="submit" class="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-700">
-            บันทึก
+          <button type="submit"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-sm transition-colors flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            บันทึกการเปลี่ยนแปลง
           </button>
         </div>
       </form>
@@ -94,7 +208,8 @@
 
     window.onload = fetchData;
     async function fetchData() {
-      document.getElementById('loading-message').style.display = 'block';
+      const loadingOverlay = document.getElementById('loading-overlay');
+      loadingOverlay.classList.remove('hidden');
       try {
         const response = await fetch(WEB_APP_URL);
         const data = await response.json();
@@ -105,7 +220,7 @@
         console.error('Error fetching data:', error);
         Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถโหลดข้อมูลได้' });
       } finally {
-        document.getElementById('loading-message').style.display = 'none';
+        loadingOverlay.classList.add('hidden');
       }
     }
 
@@ -123,9 +238,11 @@
         const tax = row[16] || '';
         const send = row[17] ? formatDate(row[17]) : '';
         if (!orderMap[orderId]) {
-          orderMap[orderId] = { orderId, name: row[1], address: row[2], contact: row[3],
+          orderMap[orderId] = {
+            orderId, name: row[1], address: row[2], contact: row[3],
             citizenid: row[4], note: row[5], userlineid: row[6],
-            totalOrder, totalPrice, timestamp, paymentStatus, express, tax, send, products: [] };
+            totalOrder, totalPrice, timestamp, paymentStatus, express, tax, send, productStatus: row[18] || '', products: []
+          };
         } else {
           orderMap[orderId].totalOrder += totalOrder;
           orderMap[orderId].totalPrice += totalPrice;
@@ -133,17 +250,30 @@
         orderMap[orderId].products.push({
           idProduct: row[7], product: row[8],
           price: parseFloat(row[9]), size: row[10],
-          quantity: parseInt(row[11]), value: parseFloat(row[12])
+          quantity: parseInt(row[11]), value: parseFloat(row[12]),
+          status: row[18] // Capture status per product
         });
       });
       return Object.values(orderMap);
     }
 
-    function getStatusEmoji(status) {
-      if (status === 'ชำระเงินสำเร็จ') return '✅';
-      if (!status) return '⚠️';
-      if (status === 'ยกเลิกสินค้า' || status === 'ล้มเหลว') return '❌';
-      return status;
+    function getStatusBadge(status, type) {
+      let colorClass = 'status-neutral';
+      let icon = '';
+
+      if (type === 'payment') {
+        if (status === 'ชำระเงินสำเร็จ') { colorClass = 'status-success'; icon = '✅ '; }
+        else if (status === 'ยกเลิกสินค้า' || status === 'ล้มเหลว') { colorClass = 'status-danger'; icon = '❌ '; }
+        else if (!status) { colorClass = 'status-warning'; icon = '⚠️ '; }
+        else { colorClass = 'status-info'; }
+      } else if (type === 'product') {
+        if (status === 'ได้รับแล้ว') { colorClass = 'status-success'; }
+        else if (status === 'จัดส่ง') { colorClass = 'status-info'; }
+        else if (status === 'ยกเลิก') { colorClass = 'status-danger'; }
+        else if (status === 'ดำเนินการผลิต') { colorClass = 'status-warning'; }
+      }
+
+      return `<span class="status-badge ${colorClass}">${icon}${status || 'รออัพเดท'}</span>`;
     }
 
     // ปรับตรงนี้ให้เรียงโดยใช้ orderId (INV) แทน timestamp
@@ -163,74 +293,80 @@
     }
 
     function displayData(data) {
-      const tbody = document.getElementById('data-tbody');
-      tbody.innerHTML = '';
+      const grid = document.getElementById('order-grid');
+      grid.innerHTML = '';
+
       const start = (currentPage - 1) * ROWS_PER_PAGE;
       const end = start + ROWS_PER_PAGE;
       const paginatedData = data.slice(start, end);
-      paginatedData.forEach(order => {
-        const mainRow = document.createElement('tr');
-        mainRow.className = 'border-b';
-        // (1) วันที่
-        const dateCell = document.createElement('td');
-        dateCell.className = 'px-4 py-2';
-        dateCell.textContent = formatDate(order.timestamp);
-        // (2) ชื่อ
-        const nameCell = document.createElement('td');
-        nameCell.className = 'px-4 py-2';
-        nameCell.textContent = order.name;
-        // (3) ราคา
-        const priceCell = document.createElement('td');
-        priceCell.className = 'px-4 py-2';
-        priceCell.textContent = `${order.totalPrice.toFixed(2)} บาท`;
-        // (4) สถานะ
-        const statusCell = document.createElement('td');
-        statusCell.className = 'px-4 py-2';
-        statusCell.textContent = getStatusEmoji(order.paymentStatus);
-        // (5) ปุ่มคำสั่ง
-        const commandCell = document.createElement('td');
-        commandCell.className = 'px-4 py-2 text-center';
-        const commandButton = document.createElement('button');
-        commandButton.textContent = '📝';
-        commandButton.className = 'bg-blue-900 text-white py-1 px-3 rounded-md hover:bg-orange-700';
-        commandButton.onclick = () => toggleDetailRow(`detail-${order.orderId}`);
-        commandCell.appendChild(commandButton);
-        mainRow.append(dateCell, nameCell, priceCell, statusCell, commandCell);
-        tbody.appendChild(mainRow);
 
-        // Detail row
-        const detailRow = document.createElement('tr');
-        detailRow.id = `detail-${order.orderId}`;
-        detailRow.className = 'border-b hidden';
-        const detailCell = document.createElement('td');
-        detailCell.colSpan = 5;
-        detailCell.className = 'px-4 py-2 bg-gray-50';
-        let btnHtml = `
-          <div class="flex flex-wrap gap-2">
-            <button class="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-700" onclick="showDetails('${order.orderId}')">
-              ดูรายการ
-            </button>
-            <button class="bg-yellow-500 text-white py-1 px-3 rounded-md hover:bg-yellow-700" onclick="openEditModal('${order.orderId}')">
-              ส่งของ
-            </button>
-        `;
+      paginatedData.forEach(order => {
         const isPaid = (order.paymentStatus === 'ชำระเงินสำเร็จ');
-        btnHtml += `
-            <button class="bg-gray-800 text-white py-1 px-3 rounded-md hover:bg-gray-600 ${isPaid ? 'opacity-50 cursor-not-allowed' : ''}"
-              ${isPaid ? 'disabled' : ''}
-              onclick="if(!${isPaid}) { openPaymentOptions('${order.orderId}'); }">
-              การชำระเงิน
-            </button>
-          </div>
+
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col';
+
+        card.innerHTML = `
+            <div class="p-5 flex-grow">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <div class="text-xl font-bold text-gray-800 tracking-tight">#${order.orderId}</div>
+                        <div class="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            ${formatDate(order.timestamp)}
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xl font-bold text-blue-600">${order.totalPrice.toFixed(2)} ฿</div>
+                        <div class="text-xs text-gray-500 mt-1 truncate max-w-[100px]">${order.name}</div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 mb-4">
+                    ${getStatusBadge(order.paymentStatus, 'payment')}
+                    ${getStatusBadge(order.productStatus, 'product')}
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 p-4 border-t border-gray-100 mt-auto">
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="col-span-2 bg-white text-gray-700 py-2 rounded-lg text-sm font-medium border border-gray-200 hover:bg-gray-50 transition-colors shadow-sm" onclick="showDetails('${order.orderId}')">
+                        ดูรายละเอียด
+                    </button>
+                    <button class="bg-blue-50 text-blue-700 py-2 rounded-lg text-sm font-medium border border-blue-100 hover:bg-blue-100 transition-colors" onclick="openEditModal('${order.orderId}', 'status')">
+                        สถานะสินค้า
+                    </button>
+                    <button class="bg-indigo-50 text-indigo-700 py-2 rounded-lg text-sm font-medium border border-indigo-100 hover:bg-indigo-100 transition-colors" onclick="openEditModal('${order.orderId}', 'shipping')">
+                        ข้อมูลจัดส่ง
+                    </button>
+                    <button class="col-span-2 ${isPaid ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700 shadow-md hover:shadow-lg'} py-2 rounded-lg text-sm font-medium transition-all"
+                        ${isPaid ? 'disabled' : ''}
+                        onclick="if(!${isPaid}) { openPaymentOptions('${order.orderId}'); }">
+                        ${isPaid ? 'ชำระเงินแล้ว' : 'แจ้งชำระเงิน'}
+                    </button>
+                </div>
+            </div>
         `;
-        detailCell.innerHTML = btnHtml;
-        detailRow.appendChild(detailCell);
-        tbody.appendChild(detailRow);
+        grid.appendChild(card);
       });
     }
 
-    function toggleDetailRow(id) {
-      document.getElementById(id).classList.toggle('hidden');
+    function toggleDetailRow(id, btn) {
+      const row = document.getElementById(id);
+      const isHidden = row.classList.contains('hidden');
+      row.classList.toggle('hidden');
+
+      if (btn) {
+        if (isHidden) {
+          btn.innerHTML = 'ปิด <span class="ml-1">▲</span>';
+          btn.classList.add('bg-indigo-100', 'text-indigo-900');
+        } else {
+          btn.innerHTML = 'จัดการ <span class="ml-1">▼</span>';
+          btn.classList.remove('bg-indigo-100', 'text-indigo-900');
+        }
+      }
     }
 
     function renderPagination(totalRows) {
@@ -279,7 +415,7 @@
 
     function getCurrentDateTimeLocal() {
       const now = new Date();
-      return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}T${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     }
 
     function convertToDateTimeLocal(dateString) {
@@ -304,6 +440,7 @@
         </div>
         <div style="margin-bottom:10px;font-size:14px;text-align:start;"><strong>รายการสินค้า</strong></div>
       `;
+      // Show all products including shipping costs
       order.products.forEach(prod => {
         htmlDetail += `
           <div style="margin-bottom:10px;font-size:14px;text-align:start;display:flex;justify-content:space-between;">
@@ -323,7 +460,7 @@
       });
     }
 
-    function openEditModal(orderId) {
+    function openEditModal(orderId, mode) {
       const order = tableData.find(o => o.orderId === orderId);
       if (!order) {
         Swal.fire({ icon: 'error', title: 'ไม่พบข้อมูล', text: `ไม่พบข้อมูลสำหรับ Order ID: ${orderId}` });
@@ -333,6 +470,75 @@
       document.getElementById('edit-express').value = order.express;
       document.getElementById('edit-tax').value = order.tax;
       document.getElementById('edit-send').value = order.send ? convertToDateTimeLocal(order.send) : getCurrentDateTimeLocal();
+
+      // Toggle visibility based on mode
+      const statusGroup = document.getElementById('modal-group-status');
+      const shippingGroup = document.getElementById('modal-group-shipping');
+      const modalTitle = document.getElementById('modal-title');
+
+      if (mode === 'status') {
+        statusGroup.classList.remove('hidden');
+        shippingGroup.classList.add('hidden');
+        modalTitle.textContent = 'อัพเดทสถานะสินค้า';
+
+        // Generate Product List
+        const listContainer = document.getElementById('product-status-list');
+        listContainer.innerHTML = '';
+
+        // Filter out shipping costs - check for various formats
+        console.log('Modal - All products:', order.products.map(p => p.product)); // Debug log
+
+        const productsToShow = order.products.filter(prod => {
+          const productName = prod.product.toLowerCase().trim();
+          const isShipping = productName.includes('ค่าจัดส่ง') ||
+            productName.includes('คาจัดส่ง') ||
+            productName.includes('shipping') ||
+            productName.includes('ค่า จัดส่ง') ||
+            productName.includes('คา จัดส่ง') ||
+            (productName.startsWith('ค่า') && productName.includes('จัดส่ง'));
+
+          console.log(`Modal - Product: "${prod.product}" -> isShipping: ${isShipping}`); // Debug log
+          return !isShipping;
+        });
+
+        console.log('Modal - Filtered products:', productsToShow.map(p => p.product)); // Debug log
+
+        if (productsToShow.length === 0) {
+          listContainer.innerHTML = '<div class="text-center text-gray-500 py-4">ไม่มีสินค้าในรายการนี้</div>';
+        } else {
+          productsToShow.forEach((prod, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'bg-gray-50 p-3 rounded-lg border border-gray-200';
+
+            // Use the status from the product if available, else fallback to order status
+            const currentStatus = prod.status || order.productStatus || '';
+
+            itemDiv.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="font-medium text-sm text-gray-900">${prod.product}</div>
+                        <div class="text-xs text-gray-500">Size: ${prod.size}</div>
+                    </div>
+                    <select class="product-status-select w-full border-gray-300 rounded-md shadow-sm text-sm p-1.5" 
+                            data-product-id="${prod.idProduct}" 
+                            data-size="${prod.size}">
+                        <option value="">-- เลือกสถานะ --</option>
+                        <option value="ได้รับแล้ว" ${currentStatus === 'ได้รับแล้ว' ? 'selected' : ''}>ได้รับแล้ว</option>
+                        <option value="ดำเนินการผลิต" ${currentStatus === 'ดำเนินการผลิต' ? 'selected' : ''}>ดำเนินการผลิต</option>
+                        <option value="Pre-order" ${currentStatus === 'Pre-order' ? 'selected' : ''}>Pre-order</option>
+                        <option value="จัดส่ง" ${currentStatus === 'จัดส่ง' ? 'selected' : ''}>จัดส่ง</option>
+                        <option value="ยกเลิก" ${currentStatus === 'ยกเลิก' ? 'selected' : ''}>ยกเลิก</option>
+                    </select>
+                `;
+            listContainer.appendChild(itemDiv);
+          });
+        }
+
+      } else {
+        statusGroup.classList.add('hidden');
+        shippingGroup.classList.remove('hidden');
+        modalTitle.textContent = 'ข้อมูลการจัดส่ง';
+      }
+
       document.getElementById('edit-modal').classList.remove('hidden');
     }
 
@@ -342,15 +548,32 @@
       const express = document.getElementById('edit-express').value;
       const tax = document.getElementById('edit-tax').value;
       const send = document.getElementById('edit-send').value;
+
+      // Gather Product Status Updates
+      const productUpdates = [];
+      document.querySelectorAll('.product-status-select').forEach(select => {
+        if (select.value) {
+          productUpdates.push({
+            productId: select.dataset.productId,
+            size: select.dataset.size,
+            status: select.value
+          });
+        }
+      });
+
       if (!orderId) {
         Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่พบ Order ID' });
         return;
       }
-      await updateData(orderId, express, tax, send);
+
+      // If we are in shipping mode, productUpdates might be empty, which is fine.
+      // If we are in status mode, we send the updates.
+
+      await updateData(orderId, express, tax, send, productUpdates);
       closeModal();
     });
 
-    async function updateData(orderId, express, tax, send) {
+    async function updateData(orderId, express, tax, send, productUpdates) {
       Swal.fire({
         title: 'กำลังบันทึกข้อมูล...',
         allowOutsideClick: false,
@@ -360,7 +583,7 @@
         const response = await fetch(WEB_APP_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: `method=updateOrderData&orderId=${encodeURIComponent(orderId)}&express=${encodeURIComponent(express)}&tax=${encodeURIComponent(tax)}&send=${encodeURIComponent(send)}`
+          body: `method=updateOrderData&orderId=${encodeURIComponent(orderId)}&express=${encodeURIComponent(express)}&tax=${encodeURIComponent(tax)}&send=${encodeURIComponent(send)}&productUpdates=${encodeURIComponent(JSON.stringify(productUpdates))}`
         });
         const result = await response.text();
         Swal.fire({ title: 'สำเร็จ', text: result, icon: 'success', confirmButtonText: 'OK' });
@@ -401,16 +624,17 @@
         orderId,
         payment: paymentMethod
       })
-      .done(response => {
-        Swal.fire({ icon: 'success', title: 'อัปเดตสำเร็จ', text: `สถานะการชำระเงินสำหรับ Order ID: ${orderId} ถูกอัปเดตเป็น ${paymentMethod}` });
-        fetchData();
-      })
-      .fail(() => {
-        Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถอัปเดตสถานะการชำระเงินได้' });
-      });
+        .done(response => {
+          Swal.fire({ icon: 'success', title: 'อัปเดตสำเร็จ', text: `สถานะการชำระเงินสำหรับ Order ID: ${orderId} ถูกอัปเดตเป็น ${paymentMethod}` });
+          fetchData();
+        })
+        .fail(() => {
+          Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถอัปเดตสถานะการชำระเงินได้' });
+        });
     }
 
     document.getElementById('filter-sort').addEventListener('change', applyFilters);
   </script>
 </body>
+
 </html>

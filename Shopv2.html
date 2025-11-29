@@ -930,7 +930,7 @@
       defaultOption.textContent = 'เลือกไซต์';
       sizeSelect.appendChild(defaultOption);
 
-      ['FS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'].forEach(size => {
+      ['One-size', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'].forEach(size => {
         if (product[size] > 0) {
           const opt = document.createElement('option');
           opt.value = size;
@@ -1175,7 +1175,7 @@
     function increment(index) {
       const item = cart[index];
       // กำหนดรายการไซส์มาตรฐานที่มีในระบบ
-      const standardSizes = ['FS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+      const standardSizes = ['One-size', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
       // ถ้าไซส์ที่เลือกไม่ใช่ไซส์มาตรฐาน (คือ custom size)
       if (!standardSizes.includes(item.size)) {
         // เพิ่มจำนวนได้สูงสุด 10 ชิ้นสำหรับไซส์ custom

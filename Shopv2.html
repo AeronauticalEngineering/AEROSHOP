@@ -117,7 +117,7 @@
     .swal2-title {
       font-size: 1rem !important;
     }
-    
+
     select {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -160,8 +160,18 @@
               </div>
             </div>
             <div class="flex items-center">
+              <button id="go-to-history"
+                class="bg-[var(--secondary-color)] text-white text-md py-2 px-3 flex items-center gap-2 rounded-xl ml-2 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                  stroke="currentColor" stroke-width="1.5">
+                  <path
+                    d="M12 7V12L14.5 13.5M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                ประวัติ
+              </button>
               <button id="go-to-cart"
-                class="bg-[var(--accent-color)] text-md py-2 px-4 flex items-center gap-2 rounded-xl ml-4 focus:outline-none">
+                class="bg-[var(--accent-color)] text-md py-2 px-4 flex items-center gap-2 rounded-xl ml-2 focus:outline-none">
                 <!-- ไอคอนตะกร้าสินค้า -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
                   stroke="currentColor" stroke-width="1.5">
@@ -189,6 +199,22 @@
             <div id="tab-nav" class="flex overflow-x-auto space-x-4 pb-2">
               <!-- หมวดหมู่สินค้า -->
             </div>
+          </div>
+
+          <!-- ปุ่มระเบียบชุดแต่งกาย -->
+          <div id="clothing-regulation-container" class="w-full py-2 hidden">
+            <button id="clothing-regulation-btn"
+              class="w-full bg-white border border-[var(--secondary-color)] text-[var(--secondary-color)] rounded-xl p-2 flex justify-between items-center shadow-sm">
+              <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span id="clothing-regulation-text" class="font-semibold text-sm">ระเบียบชุดแต่งกาย</span>
+              </div>
+              <span class="text-xs font-bold bg-[var(--secondary-color)] text-white px-2 py-1 rounded-lg">เปิดดู</span>
+            </button>
           </div>
           <!-- ช่องค้นหาสินค้า -->
           <div class="relative">
@@ -258,7 +284,9 @@
         <div class="fixed top-0 left-0 w-full bg-[var(--primary-color)] border-b z-50">
           <div class="flex justify-between items-center p-4">
             <h2 class="text-[var(--secondary-color)] text-md font-semibold">การจัดส่ง</h2>
-            <button id="back-to-cart" class="bg-gray-200 opacity-90 text-center font-bold py-2 w-36 border rounded-xl cursor-pointer">กลับ ตะกร้าสินค้า</button>
+            <button id="back-to-cart"
+              class="bg-gray-200 opacity-90 text-center font-bold py-2 w-36 border rounded-xl cursor-pointer">กลับ
+              ตะกร้าสินค้า</button>
           </div>
         </div>
         <form id="shipping-form">
@@ -266,35 +294,77 @@
           <div id="form-container">
             <div class="mb-4">
               <label for="username" class="block text-[var(--secondary-color)]">ชื่อ-สกุล</label>
-              <input type="text" id="username" placeholder="กรอกชื่อและนามสกุล" class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" required />
+              <input type="text" id="username" placeholder="กรอกชื่อและนามสกุล"
+                class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" required />
             </div>
             <div class="mb-4">
               <label for="contact" class="block text-[var(--secondary-color)]">เบอร์ติดต่อ :</label>
-              <input type="text" id="contact" placeholder="กรอกเบอร์ติดต่อ" class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" required />
+              <input type="text" id="contact" placeholder="กรอกเบอร์ติดต่อ"
+                class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" required />
             </div>
             <!-- ฟิลด์เพิ่มข้อมูลเลขรหัสประชาชน -->
             <div class="mb-4">
               <label for="citizenid" class="block text-[var(--secondary-color)]">เลขรหัสประชาชน</label>
-              <input type="text" id="citizenid" placeholder="กรอกเลขรหัสประชาชน" class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" required />
+              <input type="text" id="citizenid" placeholder="กรอกเลขรหัสประชาชน"
+                class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" required />
             </div>
             <div class="mb-4">
               <label for="address" class="block text-[var(--secondary-color)]">ที่อยู่</label>
-              <textarea id="address" placeholder="กรอกข้อมูลที่อยู่ในการจัดส่ง" class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" style="height: 150px;" required></textarea>
+              <textarea id="address" placeholder="กรอกข้อมูลที่อยู่ในการจัดส่ง"
+                class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" style="height: 150px;"
+                required></textarea>
             </div>
             <div class="mb-4">
               <label for="note" class="block text-[var(--secondary-color)]">หมายเหตุ:</label>
-              <textarea id="note" placeholder="โปรดระบุในกรณีสั่งซื้อสินค้าขนาดพิเศษหรือสินค้าที่มีการระบุชื่อ" class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" style="height: 100px;"></textarea>
+              <textarea id="note" placeholder="โปรดระบุในกรณีสั่งซื้อสินค้าขนาดพิเศษหรือสินค้าที่มีการระบุชื่อ"
+                class="block w-full mb-2 p-2 border rounded-xl focus:outline-none" style="height: 100px;"></textarea>
             </div>
             <div class="mb-4 flex items-center">
               <input type="checkbox" id="save-info" class="mr-2">
-              <label for="save-info" class="text-[var(--secondary-color)]">บันทึกชื่อและที่อยู่สำหรับการใช้งานครั้งถัดไป</label>
+              <label for="save-info"
+                class="text-[var(--secondary-color)]">บันทึกชื่อและที่อยู่สำหรับการใช้งานครั้งถัดไป</label>
             </div>
             <input type="hidden" id="userlineid" name="userlineid">
           </div>
-          <button type="submit" class="bg-[var(--secondary-color)] text-[var(--primary-color)] p-4 w-full rounded-xl mt-4 focus:outline-none">
+          <button type="submit"
+            class="bg-[var(--secondary-color)] text-[var(--primary-color)] p-4 w-full rounded-xl mt-4 focus:outline-none">
             สั่งซื้อสินค้า
           </button>
         </form>
+      </div>
+    </div>
+
+    <!-- ฟังก์ชันแสดงประวัติการสั่งซื้อ -->
+    <div id="history-view" class="max-w-md mx-auto pt-20 hidden">
+      <div class="bg-[var(--primary-color)] rounded-xl p-4 m-2">
+        <!-- ส่วนหัวของประวัติ -->
+        <div class="fixed top-0 left-0 w-full bg-[var(--primary-color)] border-b z-50">
+          <div class="flex justify-between items-center p-4">
+            <h2 class="text-[var(--secondary-color)] text-md font-semibold">ประวัติการสั่งซื้อ</h2>
+            <div id="back-to-shop-from-history"
+              class="bg-gray-200 opacity-90 text-center font-bold py-2 w-36 border rounded-xl cursor-pointer">
+              กลับ ร้านค้า</div>
+          </div>
+        </div>
+
+        <div class="p-2">
+          <table id="history-table" class="min-w-full text-xs bg-white rounded-xl">
+            <thead>
+              <tr class="text-slate-800 text-sm border-b">
+                <th class="py-2 px-2 text-left">วันที่</th>
+                <th class="py-2 px-2 text-right">ราคา</th>
+                <th class="py-2 px-2 text-center">สถานะ</th>
+                <th class="py-2 px-2 text-center">บิล</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body" class="text-sm">
+              <!-- Data here -->
+            </tbody>
+          </table>
+          <!-- Pagination -->
+          <div id="history-pagination" class="flex justify-center mt-4"></div>
+          <div id="history-loading-message" class="text-center text-gray-500 mt-4 hidden">กำลังโหลดข้อมูล...</div>
+        </div>
       </div>
     </div>
 
@@ -312,10 +382,12 @@
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button id="confirm-order" class="w-full inline-flex justify-center rounded-xl border border-transparent px-4 py-4 bg-[var(--secondary-color)] text-[var(--primary-color)] font-medium hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-800 sm:ml-3 sm:w-auto sm:text-sm">
+            <button id="confirm-order"
+              class="w-full inline-flex justify-center rounded-xl border border-transparent px-4 py-4 bg-[var(--secondary-color)] text-[var(--primary-color)] font-medium hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-800 sm:ml-3 sm:w-auto sm:text-sm">
               ยืนยันการสั่งซื้อ
             </button>
-            <button id="close-modal" class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 px-4 py-2 bg-[var(--primary-color)] text-base font-medium text-[var(--secondary-color)] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+            <button id="close-modal"
+              class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 px-4 py-2 bg-[var(--primary-color)] text-base font-medium text-[var(--secondary-color)] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
               ยกเลิก
             </button>
             <div id="order-status" class="px-4 py-3 sm:px-6 text-center text-sm hidden"></div>
@@ -330,7 +402,16 @@
     // ตัวแปรและฟังก์ชันเริ่มต้น
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzi3Mca-TzwiOGqtnwFn9t_UTl3yzY_wGEQT4PdvFrVI-sgz72SFrFHLOH0V0TEo3-m8Q/exec";
     const WEB_MEMBER_APP_URL = "https://script.google.com/macros/s/AKfycbza8DgaVCUAhemxKpWjXNhk9meZAsSlMTzM1ZJVR2l4whSSxh8QYtmd4QfeRCNIJfPq7Q/exec";
+    const HISTORY_API_URL = 'https://script.google.com/macros/s/AKfycbwFtQ7qbAt_JFi6TOkZvYaguJP63menTHr889W684JiVOazgqTMkGRiuLzJN0kFp3p6/exec';
     const LIFF_ID = '2006974351-0GWowwVZ';
+
+    // Test User Configuration
+    const ENABLE_TEST_USER = false; // Set to false to disable test user
+    const TEST_USER_PROFILE = {
+      userId: 'U1234567890abcdef1234567890abcdef',
+      displayName: 'Test User',
+      pictureUrl: 'https://via.placeholder.com/150'
+    };
 
     let shippingOptions = [];
     let selectedShipping = null;
@@ -342,6 +423,12 @@
     let isSearching = false;
     let filteredProducts = [];
     let productsCache = [];
+
+    // History Variables
+    const HISTORY_ROWS_PER_PAGE = 15;
+    let historyCurrentPage = 1;
+    let historyTableData = [];
+    let historyFilteredData = [];
 
     // DOM elements
     const productList = document.getElementById('product-list');
@@ -363,6 +450,12 @@
     const orderStatusEl = document.getElementById('order-status');
     const loadMoreBtn = document.getElementById('load-more');
     const loadMoreContainer = document.getElementById('load-more-container');
+
+    // History DOM
+    const goToHistoryBtn = document.getElementById('go-to-history');
+    const historyView = document.getElementById('history-view');
+    const backToShopFromHistoryBtn = document.getElementById('back-to-shop-from-history');
+    const historyLoadingMessage = document.getElementById('history-loading-message');
 
     document.addEventListener('DOMContentLoaded', initializeApp);
 
@@ -389,6 +482,11 @@
     }
 
     async function initializeLiff() {
+      if (ENABLE_TEST_USER) {
+        console.log('Test user enabled. Skipping LIFF initialization.');
+        getUserProfile();
+        return;
+      }
       try {
         await liff.init({ liffId: `${LIFF_ID}` });
         if (liff.isLoggedIn()) {
@@ -403,7 +501,12 @@
 
     async function getUserProfile() {
       try {
-        const profile = await liff.getProfile();
+        let profile;
+        if (ENABLE_TEST_USER) {
+          profile = TEST_USER_PROFILE;
+        } else {
+          profile = await liff.getProfile();
+        }
         const userId = profile.userId;
         document.getElementById('userlineid').value = userId;
         document.getElementById('displayName').value = profile.displayName;
@@ -578,23 +681,28 @@
       tabContainer.classList.add('flex', 'space-x-4', 'overflow-x-auto', 'py-2');
       categories.forEach(function (category) {
         const tabButton = document.createElement('button');
-        tabButton.classList.add('flex-shrink-0', 'px-1', 'py-1', 'pr-2', 'border', 'rounded-xl', 'focus:outline-none', 'flex', 'items-center', 'justify-start', 'space-x-2');
+        tabButton.classList.add('flex-shrink-0', 'px-3', 'py-1', 'border', 'rounded-xl', 'focus:outline-none', 'flex', 'items-center', 'justify-center', 'space-x-2');
         tabButton.setAttribute('data-category', category);
         if (category === currentTab) {
           tabButton.classList.add('bg-blue-50', 'border-blue-800', 'text-[var(--secondary-color)]');
         } else {
           tabButton.classList.add('bg-[var(--primary-color)]', 'text-[var(--secondary-color)]');
         }
-        const categoryImage = document.createElement('img');
-        categoryImage.src = getCategoryImage(category, products);
-        categoryImage.alt = category;
-        categoryImage.loading = 'lazy';
-        categoryImage.classList.add('w-8', 'h-8', 'rounded-lg');
+
+        if (category !== 'All') {
+          const categoryImage = document.createElement('img');
+          categoryImage.src = getCategoryImage(category, products);
+          categoryImage.alt = category;
+          categoryImage.loading = 'lazy';
+          categoryImage.classList.add('w-8', 'h-8', 'rounded-lg');
+          tabButton.appendChild(categoryImage);
+        }
+
         const categoryLabel = document.createElement('span');
         categoryLabel.textContent = category === 'All' ? 'รวมทั้งหมด' : category;
-        categoryLabel.classList.add('text-sm');
-        tabButton.appendChild(categoryImage);
+        categoryLabel.classList.add('text-sm', 'font-medium');
         tabButton.appendChild(categoryLabel);
+
         tabButton.addEventListener('click', function () {
           switchTab(category);
           this.scrollIntoView({ behavior: 'smooth', inline: 'center' });
@@ -623,12 +731,56 @@
       document.getElementById('search-input').value = '';
       renderProducts(productsCache);
       renderTabs(productsCache);
+
+      // Update Clothing Regulation Button
+      updateClothingRegulationButton(category);
+
       setTimeout(() => {
         const activeTab = document.querySelector(`#tab-nav button[data-category="${category}"]`);
         if (activeTab) {
           activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
       }, 0);
+    }
+
+    function updateClothingRegulationButton(category) {
+      const container = document.getElementById('clothing-regulation-container');
+      const btn = document.getElementById('clothing-regulation-btn');
+      const text = document.getElementById('clothing-regulation-text');
+
+      // Hide if category is 'All'
+      if (category === 'All') {
+        container.classList.add('hidden');
+        return;
+      }
+
+      // Find a product in the current category that has a clothing image
+      // We check for 'clothing' or 'Clothing' keys
+      const productWithClothing = productsCache.find(p => {
+        return (p.category === category) && (p.clothing || p.Clothing);
+      });
+
+      if (productWithClothing) {
+        const imageUrl = productWithClothing.clothing || productWithClothing.Clothing;
+        if (imageUrl) {
+          container.classList.remove('hidden');
+          text.textContent = `ระเบียบชุดแต่งกาย ${category}`;
+          btn.onclick = () => {
+            Swal.fire({
+              title: `ระเบียบชุดแต่งกาย ${category}`,
+              imageUrl: imageUrl,
+              imageWidth: '100%',
+              imageAlt: 'Clothing Regulation',
+              showCloseButton: true,
+              showConfirmButton: false,
+              customClass: { popup: 'custom-swal-popup' }
+            });
+          };
+          return;
+        }
+      }
+
+      container.classList.add('hidden');
     }
 
     document.getElementById('search-input').addEventListener('input', debounce(searchProducts, 300));
@@ -691,139 +843,139 @@
       }
     }
 
-function createProductElement(product) {
-  const productDiv = document.createElement('div');
-  productDiv.classList.add(
-    'bg-[var(--primary-color)]','flex','flex-col',
-    'border','rounded-xl','relative'
-  );
+    function createProductElement(product) {
+      const productDiv = document.createElement('div');
+      productDiv.classList.add(
+        'bg-[var(--primary-color)]', 'flex', 'flex-col',
+        'border', 'rounded-xl', 'relative'
+      );
 
-  const imgContainer = document.createElement('div');
-  imgContainer.classList.add('relative');
-  const productImg = document.createElement('img');
-  productImg.src = product['Img-product'];
-  productImg.alt = product.name;
-  productImg.loading = 'lazy';
-  productImg.classList.add(
-    'w-full','h-40','object-cover','rounded-t-lg','product-img'
-  );
-  productImg.setAttribute('data-id', product.id);
-  imgContainer.appendChild(productImg);
+      const imgContainer = document.createElement('div');
+      imgContainer.classList.add('relative');
+      const productImg = document.createElement('img');
+      productImg.src = product['Img-product'];
+      productImg.alt = product.name;
+      productImg.loading = 'lazy';
+      productImg.classList.add(
+        'w-full', 'h-40', 'object-cover', 'rounded-t-lg', 'product-img'
+      );
+      productImg.setAttribute('data-id', product.id);
+      imgContainer.appendChild(productImg);
 
- // ปุ่ม more-pic3 แสดง popup รูปเพิ่มเติม
-  if (product['more-pic3']) {
-    const morePicBtn = document.createElement('button');
-    morePicBtn.classList.add(
-      'absolute','top-2','right-2','z-10',
-      'p-2','bg-white','rounded-xl','focus:outline-none','border','border-[#0A164D]'
-    );
-    morePicBtn.textContent = 'Size'; // Text button instead of image
-    morePicBtn.classList.add('font-semibold', 'text-sm', 'px-4', 'py-1');
-    morePicBtn.addEventListener('click', () => {
-      Swal.fire({
-        title: product.name,
-        html: `<img src="${product['more-pic3']}" alt="${product.name}" style="width: 100%; height: auto;">`,
-        showCloseButton: true,
-        showConfirmButton: false,
-        width: '90%',
-        customClass: { popup: 'custom-swal-popup' }
+      // ปุ่ม more-pic3 แสดง popup รูปเพิ่มเติม
+      if (product['more-pic3']) {
+        const morePicBtn = document.createElement('button');
+        morePicBtn.classList.add(
+          'absolute', 'top-2', 'right-2', 'z-10',
+          'p-2', 'bg-white', 'rounded-xl', 'focus:outline-none', 'border', 'border-[#0A164D]'
+        );
+        morePicBtn.textContent = 'Size'; // Text button instead of image
+        morePicBtn.classList.add('font-semibold', 'text-sm', 'px-4', 'py-1');
+        morePicBtn.addEventListener('click', () => {
+          Swal.fire({
+            title: product.name,
+            html: `<img src="${product['more-pic3']}" alt="${product.name}" style="width: 100%; height: auto;">`,
+            showCloseButton: true,
+            showConfirmButton: false,
+            width: '90%',
+            customClass: { popup: 'custom-swal-popup' }
+          });
+        });
+        imgContainer.appendChild(morePicBtn);
+      }
+
+      let finalPrice = product.Price;
+      if (product.Discount && product.Discount > 0 && product.Discount < product.Price) {
+        finalPrice = product.Discount;
+      }
+      const priceBadge = document.createElement('div');
+      priceBadge.classList.add(
+        'absolute', 'top-2', 'left-2',
+        'bg-[var(--secondary-color)]', 'text-white',
+        'px-2', 'py-1', 'rounded-xl',
+        'text-sm', 'font-semibold', 'z-10'
+      );
+      priceBadge.textContent = `${finalPrice} บาท`;
+      imgContainer.appendChild(priceBadge);
+
+      productDiv.appendChild(imgContainer);
+
+      const productInfoContainer = document.createElement('div');
+      productInfoContainer.classList.add(
+        'flex-grow', 'text-left', 'p-2', 'text-sm', 'mt-2'
+      );
+      const productName = document.createElement('h3');
+      productName.classList.add(
+        'py-2', 'font-semibold', 'text-[var(--secondary-color)]'
+      );
+      productName.textContent = product.name;
+      productInfoContainer.appendChild(productName);
+
+      const actionContainer = document.createElement('div');
+      actionContainer.classList.add('flex', 'flex-col');
+
+      const rowContainer = document.createElement('div');
+      rowContainer.classList.add('flex', 'items-center', 'justify-between');
+
+      const sizeSelect = document.createElement('select');
+      sizeSelect.classList.add(
+        'bg-gray-200', 'text-[var(--secondary-color)]',
+        'rounded-xl', 'p-2', 'product-size'
+      );
+      sizeSelect.setAttribute('data-id', product.id);
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      defaultOption.textContent = 'เลือกไซต์';
+      sizeSelect.appendChild(defaultOption);
+
+      ['FS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'].forEach(size => {
+        if (product[size] > 0) {
+          const opt = document.createElement('option');
+          opt.value = size;
+          opt.textContent = `${size} (${product[size]})`;
+          sizeSelect.appendChild(opt);
+        }
       });
-    });
-    imgContainer.appendChild(morePicBtn);
-  }
+      const otherOption = document.createElement('option');
+      otherOption.value = 'Other';
+      otherOption.textContent = 'ระบุเอง';
+      sizeSelect.appendChild(otherOption);
+      rowContainer.appendChild(sizeSelect);
 
-  let finalPrice = product.Price;
-  if (product.Discount && product.Discount > 0 && product.Discount < product.Price) {
-    finalPrice = product.Discount;
-  }
-  const priceBadge = document.createElement('div');
-  priceBadge.classList.add(
-    'absolute','top-2','left-2',
-    'bg-[var(--secondary-color)]','text-white',
-    'px-2','py-1','rounded-xl',
-    'text-sm','font-semibold','z-10'
-  );
-  priceBadge.textContent = `${finalPrice} บาท`;
-  imgContainer.appendChild(priceBadge);
+      const addToCartBtn = document.createElement('button');
+      addToCartBtn.classList.add(
+        'bg-[var(--accent-color)]', 'p-2', 'rounded-xl', 'font-bold',
+        'focus:outline-none', 'focus:ring-2', 'add-to-cart'
+      );
+      addToCartBtn.style.width = '35%';
+      addToCartBtn.textContent = 'ซื้อ';
+      addToCartBtn.setAttribute('data-id', product.id);
+      rowContainer.appendChild(addToCartBtn);
 
-  productDiv.appendChild(imgContainer);
+      actionContainer.appendChild(rowContainer);
 
-  const productInfoContainer = document.createElement('div');
-  productInfoContainer.classList.add(
-    'flex-grow','text-left','p-2','text-sm','mt-2'
-  );
-  const productName = document.createElement('h3');
-  productName.classList.add(
-    'py-2','font-semibold','text-[var(--secondary-color)]'
-  );
-  productName.textContent = product.name;
-  productInfoContainer.appendChild(productName);
+      const customInputContainer = document.createElement('div');
+      customInputContainer.classList.add('mt-2', 'p-1', 'border', 'rounded-xl');
+      const customSizeInput = document.createElement('input');
+      customSizeInput.type = 'text';
+      customSizeInput.placeholder = 'ระบุไซส์อื่นๆ';
+      customSizeInput.classList.add('custom-size-input', 'w-full');
+      customSizeInput.setAttribute('data-id', product.id);
+      customInputContainer.appendChild(customSizeInput);
+      customInputContainer.style.display = 'none';
+      actionContainer.appendChild(customInputContainer);
 
-  const actionContainer = document.createElement('div');
-  actionContainer.classList.add('flex','flex-col');
+      sizeSelect.addEventListener('change', function () {
+        customInputContainer.style.display = this.value === 'Other' ? 'block' : 'none';
+      });
 
-  const rowContainer = document.createElement('div');
-  rowContainer.classList.add('flex','items-center','justify-between');
+      productInfoContainer.appendChild(actionContainer);
+      productDiv.appendChild(productInfoContainer);
 
-  const sizeSelect = document.createElement('select');
-  sizeSelect.classList.add(
-    'bg-gray-200','text-[var(--secondary-color)]',
-    'rounded-xl','p-2','product-size'
-  );
-  sizeSelect.setAttribute('data-id', product.id);
-  const defaultOption = document.createElement('option');
-  defaultOption.value = '';
-  defaultOption.disabled = true;
-  defaultOption.selected = true;
-  defaultOption.textContent = 'เลือกไซต์';
-  sizeSelect.appendChild(defaultOption);
-
-  ['FS','XS','S','M','L','XL','2XL','3XL'].forEach(size => {
-    if (product[size] > 0) {
-      const opt = document.createElement('option');
-      opt.value = size;
-      opt.textContent = `${size} (${product[size]})`;
-      sizeSelect.appendChild(opt);
+      return productDiv;
     }
-  });
-  const otherOption = document.createElement('option');
-  otherOption.value = 'Other';
-  otherOption.textContent = 'ระบุเอง';
-  sizeSelect.appendChild(otherOption);
-  rowContainer.appendChild(sizeSelect);
-
-  const addToCartBtn = document.createElement('button');
-  addToCartBtn.classList.add(
-    'bg-[var(--accent-color)]','p-2','rounded-xl','font-bold',
-    'focus:outline-none','focus:ring-2','add-to-cart'
-  );
-  addToCartBtn.style.width = '35%';
-  addToCartBtn.textContent = 'ซื้อ';
-  addToCartBtn.setAttribute('data-id', product.id);
-  rowContainer.appendChild(addToCartBtn);
-
-  actionContainer.appendChild(rowContainer);
-
-  const customInputContainer = document.createElement('div');
-  customInputContainer.classList.add('mt-2','p-1','border','rounded-xl');
-  const customSizeInput = document.createElement('input');
-  customSizeInput.type = 'text';
-  customSizeInput.placeholder = 'ระบุไซส์อื่นๆ';
-  customSizeInput.classList.add('custom-size-input','w-full');
-  customSizeInput.setAttribute('data-id', product.id);
-  customInputContainer.appendChild(customSizeInput);
-  customInputContainer.style.display = 'none';
-  actionContainer.appendChild(customInputContainer);
-
-  sizeSelect.addEventListener('change', function() {
-    customInputContainer.style.display = this.value === 'Other' ? 'block' : 'none';
-  });
-
-  productInfoContainer.appendChild(actionContainer);
-  productDiv.appendChild(productInfoContainer);
-
-  return productDiv;
-}
 
     async function shareProduct(product) {
       const result = await Swal.fire({
@@ -959,7 +1111,14 @@ function createProductElement(product) {
 
       const quantity = 1;
       if (size !== 'Other' && product[size] < quantity) {
-        alert('สินค้าในขนาดนี้หมดแล้ว');
+        Swal.fire({
+          icon: 'warning',
+          title: 'สินค้าหมด',
+          text: 'สินค้าในขนาดนี้หมดแล้ว',
+          confirmButtonText: 'ตกลง',
+          confirmButtonColor: '#0A164D',
+          customClass: { popup: 'rounded-xl' }
+        });
         return;
       }
       if (size !== 'Other') {
@@ -974,12 +1133,30 @@ function createProductElement(product) {
         cart.push(Object.assign({}, product, { size: selectedSize, quantity: quantity }));
       }
       updateCartCount();
-      goToCartBtn.classList.remove('go-to-cart');
-      void goToCartBtn.offsetWidth;
-      goToCartBtn.classList.add('go-to-cart');
-      setTimeout(function () {
-        goToCartBtn.classList.remove('go-to-cart');
-      }, 500);
+
+      // Animation for adding to cart
+      const cartBtn = document.getElementById('go-to-cart');
+      cartBtn.classList.add('scale-110', 'bg-green-500');
+      setTimeout(() => {
+        cartBtn.classList.remove('scale-110', 'bg-green-500');
+      }, 200);
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: false,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: 'เพิ่มลงตะกร้าแล้ว'
+      })
     }
 
     function updateCartCount() {
@@ -995,25 +1172,25 @@ function createProductElement(product) {
     }
 
     // ฟังก์ชันเพิ่มจำนวนสินค้าในตะกร้า (แก้ไขเพื่อรองรับ "Other")
-  function increment(index) {
-  const item = cart[index];
-  // กำหนดรายการไซส์มาตรฐานที่มีในระบบ
-  const standardSizes = ['FS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
-  // ถ้าไซส์ที่เลือกไม่ใช่ไซส์มาตรฐาน (คือ custom size)
-  if (!standardSizes.includes(item.size)) {
-    // เพิ่มจำนวนได้สูงสุด 10 ชิ้นสำหรับไซส์ custom
-    if (item.quantity < 10) {
-      cart[index].quantity += 1;
+    function increment(index) {
+      const item = cart[index];
+      // กำหนดรายการไซส์มาตรฐานที่มีในระบบ
+      const standardSizes = ['FS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+      // ถ้าไซส์ที่เลือกไม่ใช่ไซส์มาตรฐาน (คือ custom size)
+      if (!standardSizes.includes(item.size)) {
+        // เพิ่มจำนวนได้สูงสุด 10 ชิ้นสำหรับไซส์ custom
+        if (item.quantity < 10) {
+          cart[index].quantity += 1;
+        }
+      } else {
+        const product = productsCache.find(p => p.id === item.id);
+        if (product[item.size] > item.quantity) {
+          cart[index].quantity += 1;
+        }
+      }
+      renderCart();
+      updateCartCount();
     }
-  } else {
-    const product = productsCache.find(p => p.id === item.id);
-    if (product[item.size] > item.quantity) {
-      cart[index].quantity += 1;
-    }
-  }
-  renderCart();
-  updateCartCount();
-}
 
 
     function decrement(index) {
@@ -1046,9 +1223,9 @@ function createProductElement(product) {
             <h3 class="text-md font-semibold">${item.name}</h3>
             <p class="text-gray-600">ขนาด: ${item.size}</p>
             ${(item.Discount && item.Discount > 0 && item.Discount < item.Price)
-              ? `<p class="text-gray-600 text-sm line-through">${item.Price} บาท</p>
+            ? `<p class="text-gray-600 text-sm line-through">${item.Price} บาท</p>
                  <p class="text-[#4bc56b] text-md font-semibold">${itemPrice.toFixed(2)} บาท</p>`
-              : `<p class="text-gray-600 item-price" data-price="${itemPrice}">${itemPrice.toFixed(2)} บาท</p>`}
+            : `<p class="text-gray-600 item-price" data-price="${itemPrice}">${itemPrice.toFixed(2)} บาท</p>`}
           </div>
           <div class="flex flex-col items-center">
             <button onclick="increment(${index})" class="bg-gray-200 rounded-xl w-7 h-7 flex items-center justify-center text-gray-600 font-bold pb-1 mb-1">+</button>
@@ -1179,9 +1356,9 @@ function createProductElement(product) {
             <div>
               <p class="text-sm font-medium">${item.name} (${item.size})</p>
               ${hasDiscount
-                ? `<p class="text-xs text-gray-500 line-through">ราคาเต็ม: ${item.Price} บาท</p>
+            ? `<p class="text-xs text-gray-500 line-through">ราคาเต็ม: ${item.Price} บาท</p>
                    <p class="text-xs text-[#4bc56b] font-semibold">ราคาลด: ${itemPrice} บาท</p>`
-                : `<p class="text-xs text-gray-500">ราคา: ${itemPrice} บาท</p>`}
+            : `<p class="text-xs text-gray-500">ราคา: ${itemPrice} บาท</p>`}
               <p class="text-xs text-gray-500">จำนวน: ${item.quantity}</p>
             </div>
             <p class="text-sm">${(itemPrice * item.quantity).toFixed(2)} บาท</p>
@@ -1281,12 +1458,18 @@ function createProductElement(product) {
         title: product.name,
         html: imageSlides,
         showCloseButton: true,
-        focusConfirm: false,
+        showConfirmButton: false, // Hide default confirm button
+        width: '90%', // Adjust width for better mobile view
+        padding: '0', // Remove padding for full-width images
+        customClass: {
+          popup: 'rounded-xl overflow-hidden',
+          content: 'p-0'
+        },
         didOpen: function () {
           const swiper = new Swiper('#product-carousel', {
             loop: true,
             slidesPerView: 1,
-            spaceBetween: 10,
+            spaceBetween: 0, // No space between slides
             pagination: {
               el: '.swiper-pagination',
               clickable: true,
@@ -1297,10 +1480,8 @@ function createProductElement(product) {
             },
             autoplay: {
               delay: 3000,
+              disableOnInteraction: false,
             },
-            touchEventsTarget: 'wrapper',
-            touchRatio: 1.5,
-            allowTouchMove: true,
           });
         },
       });
@@ -1335,6 +1516,222 @@ function createProductElement(product) {
     closeModalBtn.addEventListener('click', function () {
       orderDetailsModal.classList.add('hidden');
     });
+    // --- History Functions ---
+
+    goToHistoryBtn.addEventListener('click', () => {
+      productSelection.classList.add('hidden');
+      cartView.classList.add('hidden');
+      shippingInfo.classList.add('hidden');
+      historyView.classList.remove('hidden');
+      fetchHistoryData();
+    });
+
+    backToShopFromHistoryBtn.addEventListener('click', () => {
+      historyView.classList.add('hidden');
+      productSelection.classList.remove('hidden');
+    });
+
+    async function fetchHistoryData() {
+      historyLoadingMessage.style.display = 'block';
+      try {
+        const userId = document.getElementById('userlineid').value;
+        if (!userId) {
+          console.warn('No User ID found for history');
+          historyLoadingMessage.style.display = 'none';
+          return;
+        }
+        const response = await fetch(HISTORY_API_URL);
+        const data = await response.json();
+        historyTableData = processOrders(data.slice(1));
+        historyFilteredData = historyTableData.filter(order => order.userId === userId);
+        applyHistoryFilters();
+      } catch (error) {
+        console.error('Error fetching history data:', error);
+        Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถโหลดข้อมูลประวัติได้' });
+      } finally {
+        historyLoadingMessage.style.display = 'none';
+      }
+    }
+
+    function processOrders(data) {
+      const orderMap = {};
+      data.forEach(row => {
+        const [orderId, name, address, contact, citizenid, note, userId, idProduct, product, price, size, value, total, rawTimestamp, paymentStatus] = row;
+        const timestamp = new Date(rawTimestamp);
+
+        if (!orderMap[orderId]) {
+          orderMap[orderId] = {
+            orderId,
+            userId,
+            name,
+            address,
+            contact,
+            citizenid,
+            note,
+            total: +total,
+            timestamp,
+            paymentStatus,
+            products: []
+          };
+        } else {
+          orderMap[orderId].total += +total;
+        }
+
+        orderMap[orderId].products.push({
+          productId: idProduct,
+          product: product,
+          price: +price,
+          size: size,
+          value: +value,
+          totalOrder: +total
+        });
+      });
+      return Object.values(orderMap);
+    }
+
+    function applyHistoryFilters() {
+      historyFilteredData.sort((a, b) => b.timestamp - a.timestamp);
+      historyCurrentPage = 1;
+      displayHistoryTable(historyFilteredData);
+      renderHistoryPagination(historyFilteredData.length);
+    }
+
+    function displayHistoryTable(data) {
+      const tableBody = document.getElementById('history-table-body');
+      tableBody.innerHTML = '';
+      const paginatedData = data.slice((historyCurrentPage - 1) * HISTORY_ROWS_PER_PAGE, historyCurrentPage * HISTORY_ROWS_PER_PAGE);
+
+      if (paginatedData.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-500">ไม่พบประวัติการสั่งซื้อ</td></tr>';
+        return;
+      }
+
+      paginatedData.forEach(order => {
+        let paymentIcon = '';
+        if (order.paymentStatus === 'ชำระเงินสำเร็จ') {
+          paymentIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+        } else if (order.paymentStatus === 'กำลังตรวจสอบ') {
+          paymentIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 100 20 10 10 0 000-20z" /></svg>`;
+        } else {
+          paymentIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.classList.add('border-b');
+        tr.innerHTML = `
+                <td class="py-2 px-2 text-left">${formatDate(order.timestamp)}</td>
+                <td class="py-2 px-2 text-right">${order.total.toFixed(2)}</td>
+                <td class="py-2 px-2 text-center">${paymentIcon}</td>
+                <td class="py-2 px-2 text-center">
+                    <button class="bg-[var(--secondary-color)] text-white py-1 px-3 rounded-xl hover:opacity-90 history-detail-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M8 7L16 7M8 11L12 11M13 21.5V21C13 18.1716 13 16.7574 13.8787 15.8787C14.7574 15 16.1716 15 19 15H19.5M20 13.3431V10C20 6.22876 20 4.34315 18.8284 3.17157C17.6569 2 15.7712 2 12 2C8.22877 2 6.34315 2 5.17157 3.17157C4 4.34314 4 6.22876 4 10L4 14.5442C4 17.7892 4 19.4117 4.88607 20.5107C5.06508 20.7327 5.26731 20.9349 5.48933 21.1139C6.58831 22 8.21082 22 11.4558 22C12.1614 22 12.5141 22 12.8372 21.886C12.9044 21.8623 12.9702 21.835 13.0345 21.8043C13.3436 21.6564 13.593 21.407 14.0919 20.9081L18.8284 16.1716C19.4065 15.5935 19.6955 15.3045 19.8478 14.9369C20 14.5694 20 14.1606 20 13.3431Z" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </td>
+            `;
+        // Add event listener to the button
+        tr.querySelector('.history-detail-btn').addEventListener('click', () => showHistoryDetails(order.orderId));
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function renderHistoryPagination(totalRows) {
+      const totalPages = Math.ceil(totalRows / HISTORY_ROWS_PER_PAGE);
+      const pagination = document.getElementById('history-pagination');
+      pagination.innerHTML = '';
+      if (totalPages <= 1) return;
+
+      const maxPages = 3;
+      const startPage = Math.max(1, historyCurrentPage - 1);
+      const endPage = Math.min(totalPages, startPage + maxPages - 1);
+
+      if (startPage > 1) addHistoryPaginationButton('Prev', startPage - 1);
+      for (let i = startPage; i <= endPage; i++) {
+        addHistoryPaginationButton(i, i);
+      }
+      if (endPage < totalPages) addHistoryPaginationButton('Next', endPage + 1);
+    }
+
+    function addHistoryPaginationButton(text, page) {
+      const pagination = document.getElementById('history-pagination');
+      const button = document.createElement('button');
+      button.className = `mx-1 px-3 py-1 rounded-xl ${page === historyCurrentPage ? 'bg-[var(--secondary-color)] text-white' : 'bg-gray-300'}`;
+      button.innerText = text;
+      button.onclick = () => {
+        historyCurrentPage = page;
+        displayHistoryTable(historyFilteredData);
+        renderHistoryPagination(historyFilteredData.length);
+      };
+      pagination.appendChild(button);
+    }
+
+    function formatDate(dateObj) {
+      const date = new Date(dateObj);
+      return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    }
+
+    function showHistoryDetails(orderId) {
+      const order = historyTableData.find(order => order.orderId === orderId);
+      if (!order) {
+        Swal.fire({ icon: 'error', title: 'ไม่พบข้อมูล', text: `ไม่พบข้อมูลสำหรับ Order ID: ${orderId}` });
+        return;
+      }
+      let productDetails = `
+            <div class="text-left text-sm space-y-2 p-2">
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                    <h4 class="font-bold text-[var(--secondary-color)] mb-2 border-b pb-1">ข้อมูลการสั่งซื้อ</h4>
+                    <p><span class="font-semibold">Order ID:</span> ${order.orderId}</p>
+                    <p><span class="font-semibold">ชื่อผู้สั่ง:</span> ${order.name}</p>
+                    <p><span class="font-semibold">เบอร์ติดต่อ:</span> ${order.contact}</p>
+                    <p><span class="font-semibold">เลขที่บัตรประชาชน:</span> ${order.citizenid}</p>
+                    <p><span class="font-semibold">ที่อยู่:</span> ${order.address}</p>
+                    <p><span class="font-semibold">หมายเหตุ:</span> ${order.note || '-'}</p>
+                </div>
+                
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 mt-2">
+                    <h4 class="font-bold text-[var(--secondary-color)] mb-2 border-b pb-1">รายการสินค้า</h4>
+                    <div class="space-y-3">`;
+
+      order.products.forEach(product => {
+        productDetails += `
+                    <div class="flex justify-between items-start border-b border-gray-200 pb-2 last:border-0">
+                        <div class="flex-1 pr-2">
+                            <p class="font-medium text-[var(--secondary-color)]">${product.product}</p>
+                            <p class="text-xs text-gray-500">ราคา: ${product.price} บาท</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm"><span class="bg-gray-200 px-1 rounded text-xs">${product.size}</span> x ${product.value}</p>
+                        </div>
+                    </div>`;
+      });
+
+      productDetails += `
+                    </div>
+                </div>
+
+                <div class="bg-[var(--secondary-color)] text-white p-3 rounded-lg mt-2 flex justify-between items-center">
+                    <span class="font-bold">รวมเป็นเงิน</span>
+                    <span class="font-bold text-lg">${order.total.toFixed(2)} บาท</span>
+                </div>
+                <div class="text-center text-xs text-gray-400 mt-1">
+                    สั่งซื้อเมื่อ: ${formatDate(order.timestamp)}
+                </div>
+            </div>`;
+
+      Swal.fire({
+        title: `<span class="text-lg font-bold text-[var(--secondary-color)]">รายละเอียดคำสั่งซื้อ</span>`,
+        html: productDetails,
+        showConfirmButton: true,
+        confirmButtonText: 'ปิด',
+        confirmButtonColor: '#0A164D',
+        width: '90%',
+        customClass: {
+          popup: 'rounded-xl',
+          content: 'p-0'
+        }
+      });
+    }
   </script>
   <!-- LIFF SDK -->
   <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js" defer></script>

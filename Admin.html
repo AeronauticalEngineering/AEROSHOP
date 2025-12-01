@@ -231,6 +231,7 @@
     let currentPage = 1;
     let tableData = [];
     let filteredData = [];
+    let currentEditMode = 'shipping';
 
     window.onload = fetchData;
     async function fetchData() {
@@ -508,6 +509,7 @@
     }
 
     function openEditModal(orderId, mode) {
+      currentEditMode = mode;
       const order = tableData.find(o => o.orderId === orderId);
       if (!order) {
         Swal.fire({ icon: 'error', title: 'ไม่พบข้อมูล', text: `ไม่พบข้อมูลสำหรับ Order ID: ${orderId}` });
@@ -616,11 +618,11 @@
       // If we are in shipping mode, productUpdates might be empty, which is fine.
       // If we are in status mode, we send the updates.
 
-      await updateData(orderId, express, tax, send, productUpdates);
+      await updateData(orderId, express, tax, send, productUpdates, currentEditMode);
       closeModal();
     });
 
-    async function updateData(orderId, express, tax, send, productUpdates) {
+    async function updateData(orderId, express, tax, send, productUpdates, mode) {
       Swal.fire({
         title: 'กำลังบันทึกข้อมูล...',
         allowOutsideClick: false,
@@ -630,7 +632,7 @@
         const response = await fetch(WEB_APP_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: `method=updateOrderData&orderId=${encodeURIComponent(orderId)}&express=${encodeURIComponent(express)}&tax=${encodeURIComponent(tax)}&send=${encodeURIComponent(send)}&productUpdates=${encodeURIComponent(JSON.stringify(productUpdates))}`
+          body: `method=updateOrderData&orderId=${encodeURIComponent(orderId)}&express=${encodeURIComponent(express)}&tax=${encodeURIComponent(tax)}&send=${encodeURIComponent(send)}&productUpdates=${encodeURIComponent(JSON.stringify(productUpdates))}&mode=${encodeURIComponent(mode)}`
         });
         const result = await response.text();
         Swal.fire({ title: 'สำเร็จ', text: result, icon: 'success', confirmButtonText: 'OK' });

@@ -98,14 +98,40 @@
 
 <body class="bg-slate-100 min-h-screen p-6">
   <div class="max-w-7xl mx-auto">
-    <div class="mb-4">
-      <!-- Sort Field -->
-      <div class="flex justify-between">
-        <h1 class="text-md font-bold">จัดการการสั่งซื้อ จัดส่งสินค้า</h1>
-        <select id="filter-sort" class="border px-2 py-1 rounded-md">
-          <option value="desc">เรียงตาม INV ล่าสุด</option>
-          <option value="asc">เรียงตาม INV เก่าสุด</option>
-        </select>
+    <div class="mb-6">
+      <!-- Title -->
+      <h1 class="text-xl font-bold mb-4">จัดการการสั่งซื้อ จัดส่งสินค้า</h1>
+      
+      <!-- Filter and Sort Section -->
+      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Search Input -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">ค้นหา (Order ID / ชื่อ / เบอร์)</label>
+            <input type="text" id="search-input" placeholder="พิมพ์ Order ID, ชื่อ, หรือเบอร์ติดต่อ..."
+              class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 border p-2">
+          </div>
+
+          <!-- Status Filter -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">สถานะการชำระเงิน</label>
+            <select id="filter-payment" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 border p-2">
+              <option value="">ทั้งหมด</option>
+              <option value="ชำระเงินสำเร็จ">ชำระเงินสำเร็จ</option>
+              <option value="ยกเลิกสินค้า">ยกเลิกสินค้า</option>
+              <option value="">รอชำระเงิน</option>
+            </select>
+          </div>
+
+          <!-- Sort Field -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">เรียงลำดับ</label>
+            <select id="filter-sort" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 border p-2">
+              <option value="desc">INV ล่าสุด</option>
+              <option value="asc">INV เก่าสุด</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -276,9 +302,29 @@
       return `<span class="status-badge ${colorClass}">${icon}${status || 'รออัพเดท'}</span>`;
     }
 
-    // ปรับตรงนี้ให้เรียงโดยใช้ orderId (INV) แทน timestamp
+    // Apply filters and search
     function applyFilters() {
+      const searchValue = document.getElementById('search-input').value.toLowerCase();
+      const paymentValue = document.getElementById('filter-payment').value;
       const sortValue = document.getElementById('filter-sort').value;
+
+      // Filter by search term and payment status
+      filteredData = tableData.filter(order => {
+        const orderIdStr = String(order.orderId || '').toLowerCase();
+        const nameStr = String(order.name || '').toLowerCase();
+        const contactStr = String(order.contact || '').toLowerCase();
+
+        const matchSearch = searchValue === '' ||
+          orderIdStr.includes(searchValue) ||
+          nameStr.includes(searchValue) ||
+          contactStr.includes(searchValue);
+
+        const matchPayment = paymentValue === '' || order.paymentStatus === paymentValue;
+
+        return matchSearch && matchPayment;
+      });
+
+      // Sort
       filteredData.sort((a, b) => {
         // ใช้ localeCompare แบบ numeric เพื่อให้เรียงเลขผสมตัวอักษรถูกต้อง
         if (sortValue === 'asc') {
@@ -287,6 +333,7 @@
           return b.orderId.localeCompare(a.orderId, undefined, { numeric: true });
         }
       });
+
       currentPage = 1;
       displayData(filteredData);
       renderPagination(filteredData.length);
@@ -633,6 +680,9 @@
         });
     }
 
+    // Add event listeners for filters
+    document.getElementById('search-input').addEventListener('keyup', applyFilters);
+    document.getElementById('filter-payment').addEventListener('change', applyFilters);
     document.getElementById('filter-sort').addEventListener('change', applyFilters);
   </script>
 </body>
